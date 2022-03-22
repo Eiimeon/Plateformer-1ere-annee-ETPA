@@ -37,12 +37,15 @@ Partie 0 Variables Globales et Preload
 ##################################################################################################################################################*/
 
 var game = new Phaser.Game(config);
+var manager = new Phaser.WebAudioSoundManager(game) ;
+
 var player ;
 var platforms ;
 var test ;
 var test2 ;
 var timer ;
 var beatCount = 0 ;
+var juke ;
 
 
 function preload (){
@@ -54,7 +57,8 @@ function preload (){
     this.load.image('crate', 'assets/images/crate.png') ;
     this.load.image('peche', 'assets/images/peche.png') ;
 
-    this.load.audio('120bpm', 'assets/musiques/120bpm.mp3')
+    this.load.audio('120bpm', 'assets/musiques/120bpm.mp3') ;
+    this.load.audio('angry100bpm', 'assets/musiques/angry3.wav') ;
 }
 
 /*##################################################################################################################################################
@@ -74,6 +78,8 @@ function create() {
     platforms = this.physics.add.staticGroup();
     test = new RythmPlat(this.physics.world,this) ;
     test2 = new RythmPlat(this.physics.world,this) ;
+    juke = new JukeBox(this) ;
+    
     
 
 
@@ -117,31 +123,6 @@ function create() {
     player = new Chara(this,64+32,64*8,'crash') ;
 
 
-    var music = this.sound.add('120bpm') ;
-    music.play() ;
-
-    /*timer = this.time.addEvent({delay : 500 , loop : true , callback : function(){
-        test.incBeat() ;
-        if ( test.beatCount == 0 ) {
-            music.play() ;
-        }
-    }}) ;*/
-
-    timer = this.time.addEvent({delay : this.data.values.period , loop : true , callback : function(){
-        beatCount += 1 ;
-        test.tick2(beatCount) ;
-        if ( beatCount % 8 == 0 ) {
-            music.play() ;
-        }
-    }}) ;
-
-
-
-
-
-
-
-
 /*##################################################################################################################################################
 Partie 2 : Collisions
 ##################################################################################################################################################*/
@@ -153,9 +134,7 @@ Partie 2 : Collisions
 
 
 
-
-    
-    
+  
     
 /*##################################################################################################################################################
 Partie 3 : Camera, contrôles, et textes
@@ -173,10 +152,7 @@ Partie 3 : Camera, contrôles, et textes
     cursors = this.input.keyboard.createCursorKeys(); // Flèches directionnelles 
     keySpace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE); // Touche espace 
 
-    
-
-
-    
+     
 
 }
 
@@ -184,12 +160,14 @@ Partie 3 : Camera, contrôles, et textes
 Partie 4 : Update
 ##################################################################################################################################################*/
 
-
 function update() {
     // Actions (cf chara.js)
     player.move(cursors,keySpace) ;
     player.jump(cursors) ;
 
     //console.log(timer.getElapsed()) ;
+
+    juke.start(keySpace) ;
+
 }
 

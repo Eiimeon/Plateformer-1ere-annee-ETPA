@@ -1,6 +1,6 @@
 class RythmPlat extends Phaser.Physics.Arcade.StaticGroup {
 
-    constructor (_world,_scene,_beatMap = [1,0]) {
+    constructor (_world,_scene,_beatMap = [1,1,1,1,0,0,0,0]) {
         super (_world,_scene) ;
 
         _scene.add.existing(this) ;
