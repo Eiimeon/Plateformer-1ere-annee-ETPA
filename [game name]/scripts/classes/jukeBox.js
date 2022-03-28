@@ -9,8 +9,8 @@ class JukeBox {
         this.beatCount = 0
     }
 
-    start(keySpace) {
-        if ( keySpace.isDown && this.on == false ) {
+    start(key) {
+        if ( key.isDown && this.on == false ) {
             this.on = true ;
             this.music.play() ;
 
