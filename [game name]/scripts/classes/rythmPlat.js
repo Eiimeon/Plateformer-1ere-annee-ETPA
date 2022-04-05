@@ -27,6 +27,7 @@ class RythmPlat extends Phaser.Physics.Arcade.StaticGroup {
         //this.setX(this.map[this.beatCount] * 5*64 + (1 - this.map[this.beatCount]) * 64) ;
 
         this.incX((2*this.map[this.beatCount]-1)*4*64) ;
+        this.refresh() ;
     }
 
     tick2 (BC) {
@@ -36,5 +37,6 @@ class RythmPlat extends Phaser.Physics.Arcade.StaticGroup {
         //this.setX(this.map[this.beatCount] * 5*64 + (1 - this.map[this.beatCount]) * 64) ;
 
         this.incX((2*this.map[reducedBC]-1)*4*64) ;
+        this.refresh() ;
     }
 }

@@ -8,6 +8,11 @@ class Chara extends Phaser.Physics.Arcade.Sprite {
 
         _scene.add.existing(this) ;
         _scene.physics.add.existing(this) ;
+
+        this.body.useDamping = true ;
+        this.friction = 0.001 ;
+        
+
         this.scene = _scene ;
         this.arms = arms ; // Le personnage a des bras, qui proviennent du main
         this.attackDelay = 0 ; // Utilisé dans attack pour la rendre plus visuelle
@@ -17,9 +22,9 @@ class Chara extends Phaser.Physics.Arcade.Sprite {
         this.dashAllowed = true ;
         this.dashing = false ;
 
-        this.runSpeed = 300 ;
+        this.runSpeed = 400 ;
         this.dashSpeed = 1000 ;
-        this.dashDuration = 175 ;
+        this.dashDuration = 200 ;
 
         this._currSpeed = new Vector([0,0]) ;
     }
@@ -41,6 +46,7 @@ class Chara extends Phaser.Physics.Arcade.Sprite {
             }
             else if ( !cursors.left.isDown && !cursors.right.isDown && this.body.onFloor()) {
                 this.setVelocityX(0);
+                //this.setDragX(this.friction) ;
             }
         }
     }

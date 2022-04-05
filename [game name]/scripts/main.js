@@ -20,7 +20,7 @@ var config = {
         default: 'arcade',
         arcade: {
             gravity: { y : g },
-            //debug: true
+            debug: true
         }
     },
     scene : {
@@ -38,12 +38,11 @@ Partie 0 Variables Globales et Preload
 ##################################################################################################################################################*/
 
 var game = new Phaser.Game(config);
-var manager = new Phaser.WebAudioSoundManager(game) ;
+// var manager = new Phaser.WebAudioSoundManager(game) ;
 
 var player ;
 var platforms ;
 var test ;
-var test2 ;
 var juke ;
 var deathBoxes ;
 var peches ;
@@ -61,6 +60,12 @@ function preload (){
 
     this.load.audio('120bpm', 'assets/musiques/120bpm.mp3') ;
     this.load.audio('angry100bpm', 'assets/musiques/angry3.wav') ;
+    this.load.audio('HP4', 'assets/musiques/HP4.mp3')
+    this.load.audio('HP5', 'assets/musiques/HP5.mp3')
+    this.load.audio('HP6', 'assets/musiques/HP6.mp3')
+    this.load.audio('HP7', 'assets/musiques/HP7.mp3')
+    this.load.audio('HP8', 'assets/musiques/HP8.mp3')
+
 }
 
 /*##################################################################################################################################################
@@ -68,10 +73,6 @@ Partie 1 : Groupes et Parser
 ##################################################################################################################################################*/
 
 function create() {
-
-    var V = new Vector([1,1]) ;
-    V.normalize() ;
-    console.log(V) ;
 
 
     //  Using the Scene Data Plugin we can store data on a Scene level
@@ -86,7 +87,6 @@ function create() {
     peches = this.physics.add.staticGroup();
     deathBoxes = this.physics.add.staticGroup();
     test = new RythmPlat(this.physics.world,this) ;
-    test2 = new RythmPlat(this.physics.world,this) ;
     juke = new JukeBox(this) ;
     
     
@@ -108,7 +108,7 @@ function create() {
         [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], 
         [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
         [1,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,1,1,1,1,1,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0],
-        [1,0,0,0,0,2,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [1,2,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
         [1,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
         [1,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
         [1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,0,0,0,2,0,0],
@@ -150,9 +150,13 @@ Partie 2 : Collisions
         currPlayer.bumped = false ; // Gestion galère du reset du bumped, pourrait poser problème dans  (cf. Chara)
     },null,this);
 
-    this.physics.add.overlap(player, deathBoxes,function() { 
+    this.physics.add.overlap(player, deathBoxes, function() { 
         this.scene.restart() ;
     },null,this);
+
+    this.physics.add.collider(player, test) ;
+
+
 
     // Ramasse les pêches
     this.physics.add.overlap(player, peches,function(currPlayer,currPeche) { 
@@ -224,7 +228,7 @@ function update() {
 
     //console.log(timer.getElapsed()) ;
 
-    //juke.start(keyA) ;
+    juke.start(keyA) ;
 
     //Maintient de l'affichage du score à sa place et mise à jour du score
     text.x = cam.scrollX + 110 ;
