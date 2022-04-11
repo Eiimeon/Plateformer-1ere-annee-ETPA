@@ -33,7 +33,7 @@ class JukeBox {
 
             // Main timer
             this.timer = this.scene.time.addEvent({delay : (1000*60)/115 , loop : true , callbackScope : this , callback : function(){
-                console.log(this.beatCount) ;
+                //console.log(this.beatCount) ;
                 test.tick2(this.beatCount) ;
                 
 

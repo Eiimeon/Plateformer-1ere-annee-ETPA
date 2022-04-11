@@ -23,6 +23,9 @@ var config = {
             debug: true
         }
     },
+    input: {
+        gamepad: true
+    },
     scene : {
         preload : preload ,
         create : create ,
@@ -46,6 +49,8 @@ var test ;
 var juke ;
 var deathBoxes ;
 var peches ;
+
+var text ;
 
 
 function preload (){
@@ -74,12 +79,10 @@ Partie 1 : Groupes et Parser
 
 function create() {
 
+    
 
     //  Using the Scene Data Plugin we can store data on a Scene level
     this.data.set('beatCount', 0) ;
-    this.data.set('bpm', 120) ;
-    this.data.set('period', 1 / (this.data.values.bpm/(1000*60))) ; // Période musicale en ms
-    console.log(this.data.values.period) ;
 
 
     // Différents groupes et vecteurs d'objets
@@ -89,8 +92,6 @@ function create() {
     test = new RythmPlat(this.physics.world,this) ;
     juke = new JukeBox(this) ;
     
-    
-
 
     // Ces images constituent le fond
     this.add.image(0,0,'bg').setOrigin(0,0) ;
@@ -124,7 +125,7 @@ function create() {
                 platforms.create(j*64,i*64,'bSquare').setOrigin(0,0).refreshBody() ;
             }
             if ( level[i][j] == 2 ) {
-                test.create(j*64,i*64,'crate').setOrigin(0,0).refreshBody() ;
+                test.create(j*64,i*64,'crate',[1]).setOrigin(0,0).refreshBody() ;
             }
             if ( level[i][j] == 4 ) {
                 peches.create(j*64,i*64,'peche').setOrigin(0,0).refreshBody() ;
@@ -202,10 +203,12 @@ Partie 3 : Camera, contrôles, et textes
 
     // Affiche le score
     this.data.set('score', 0);
-    text = this.add.text(100, 100, '', { font: '64px Courier', fill: '#00ff00' });
-    text.setText([
+    score = this.add.text(100, 100, '', { font: '64px Courier', fill: '#00ff00' });
+    score.setText([
         'Score: ' + this.data.get('score')
     ]);
+
+    text = this.add.text(10, 30, '', { font: '16px Courier', fill: '#ffffff' });
 }
 
 /*##################################################################################################################################################
@@ -213,10 +216,79 @@ Partie 4 : Update
 ##################################################################################################################################################*/
 
 function update() {
+
+    if (this.input.gamepad.total === 0)
+    {
+        return;
+    }
+
+    var debug = [];
+    var pads = this.input.gamepad.gamepads;
+    // var pads = this.input.gamepad.getAll();
+    // var pads = navigator.getGamepads();
+
+    for (var i = 0; i < pads.length; i++)
+    {
+        var pad = pads[i];
+
+        if (!pad)
+        {
+            continue;
+        }
+
+        //  Timestamp, index. ID
+        debug.push(pad.id);
+        debug.push('Index: ' + pad.index + ' Timestamp: ' + pad.timestamp);
+
+        //  Buttons
+
+        var buttons = '';
+
+        for (var b = 0; b < pad.buttons.length; b++)
+        {
+            var button = pad.buttons[b];
+
+            buttons = buttons.concat('B' + button.index + ': ' + button.value + '  ');
+            // buttons = buttons.concat('B' + b + ': ' + button.value + '  ');
+
+            if (b === 8)
+            {
+                debug.push(buttons);
+                buttons = '';
+            }
+        }
+        
+        debug.push(buttons);
+
+        //  Axis
+
+        var axes = '';
+
+        for (var a = 0; a < pad.axes.length; a++)
+        {
+            var axis = pad.axes[a];
+
+            axes = axes.concat('A' + axis.index + ': ' + axis.getValue() + '  ');
+            // axes = axes.concat('A' + a + ': ' + axis + '  ');
+
+            if (a === 1)
+            {
+                debug.push(axes);
+                axes = '';
+            }
+        }
+        
+        debug.push(axes);
+        debug.push('');
+    }
+    
+    text.setText(debug);
+
+
     // Actions (cf chara.js)
-    player.move(cursors,keySpace) ;
-    player.jump(keySpace) ;
-    player.dash(keyE,cursors) ;
+    player.move(cursors,keySpace,pads[0]) ;
+    player.jump(keySpace,pads[0]) ;
+    player.dash(keyE,cursors,pads[0]) ;
 
     player.restoreAbilities() ;
 
@@ -231,11 +303,12 @@ function update() {
     juke.start(keyA) ;
 
     //Maintient de l'affichage du score à sa place et mise à jour du score
+    /*
     text.x = cam.scrollX + 110 ;
     text.y = cam.scrollY + 50 ;
     text.setText([
         'Score: ' + this.data.get('score')
-    ]);
+    ]);*/
 
 }
 
