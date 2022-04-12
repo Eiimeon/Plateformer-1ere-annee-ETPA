@@ -34,7 +34,22 @@ class JukeBox {
             // Main timer
             this.timer = this.scene.time.addEvent({delay : (1000*60)/115 , loop : true , callbackScope : this , callback : function(){
                 //console.log(this.beatCount) ;
-                test.tick2(this.beatCount) ;
+                for (var i = 0 ; i<beat1.length ; i++ ) {
+                    //console.log('beat1') ;
+                    beat1[i].tick3(this.beatCount) ;
+                }   
+                for (var i = 0 ; i<beat2.length ; i++ ) {
+                    beat2[i].tick3(this.beatCount) ;
+                    //console.log('beat2') ;
+                }
+                for (var i = 0 ; i<beat3.length ; i++ ) {
+                    beat3[i].tick3(this.beatCount) ;
+                    //console.log('beat3') ;
+                }
+                for (var i = 0 ; i<beat4.length ; i++ ) {
+                    beat4[i].tick3(this.beatCount) ;
+                    //console.log('beat4') ;
+                }
                 
 
                 if ( this.currMusicBeatCount == this.currMusic.beatLength ) {

@@ -89,8 +89,14 @@ function create() {
     platforms = this.physics.add.staticGroup();
     peches = this.physics.add.staticGroup();
     deathBoxes = this.physics.add.staticGroup();
-    test = new RythmPlat(this.physics.world,this) ;
+    //test = new RythmPlat(this.physics.world,this) ;
     juke = new JukeBox(this) ;
+
+    beat1 = new Array() ;
+    beat2 = new Array() ;
+    beat3 = new Array() ;
+    beat4 = new Array() ;
+
     
 
     // Ces images constituent le fond
@@ -102,7 +108,7 @@ function create() {
     
     // Première version du niveau pour les tests
     // Rename en 'level' pour essayer'
-    var level = [
+    var level0 = [
         [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
         [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], 
         [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
@@ -117,6 +123,21 @@ function create() {
         [1,1,1,1,1,1,1,1,1,1,1,1,1,5,5,5,5,5,1,1,1,1,1,1,1,5,5,5,5,1,1,1,1,1,5,5,5,5,5,5]
     ] ;
 
+    var level = [
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], 
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], 
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [1,0,0,0,0,0,5,5,0,6,6,0,7,7,0,8,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,0,0,0,2,0,0],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,3,3,3,3,3,1,1,1,1,1,1,1,3,3,3,3,1,1,1,1,1,3,3,3,3,3,3]
+    ] ;
+
 
     // Parser, crée à l'emplacement de chaque case l'objet correspondant au nombre, rien si 0
     for ( var i = 0 ; i < level.length ; i++ ) {
@@ -125,13 +146,25 @@ function create() {
                 platforms.create(j*64,i*64,'bSquare').setOrigin(0,0).refreshBody() ;
             }
             if ( level[i][j] == 2 ) {
-                test.create(j*64,i*64,'crate',[1]).setOrigin(0,0).refreshBody() ;
+                //test.create(j*64,i*64,'crate',[1]).setOrigin(0,0).refreshBody() ;
             }
             if ( level[i][j] == 4 ) {
                 peches.create(j*64,i*64,'peche').setOrigin(0,0).refreshBody() ;
             }
-            if ( level[i][j] == 5 ) {
+            if ( level[i][j] == 3 ) {
                 deathBoxes.create(j*64,i*64,'crate').setOrigin(0,0).refreshBody() ;
+            }
+            if ( level[i][j] == 5 ) {
+                beat1.push(new RythmPlat(this,j*64,i*64,'crate',[1,0,0,0]));
+            }
+            if ( level[i][j] == 6 ) {
+                beat2.push(new RythmPlat(this,j*64,i*64,'crate',[0,1,0,0]));
+            }
+            if ( level[i][j] == 7 ) {
+                beat3.push(new RythmPlat(this,j*64,i*64,'crate',[0,0,1,0]));
+            }
+            if ( level[i][j] == 8 ) {
+                beat4.push(new RythmPlat(this,j*64,i*64,'crate',[0,0,0,1]));
             }
         }
     }
@@ -155,7 +188,10 @@ Partie 2 : Collisions
         this.scene.restart() ;
     },null,this);
 
-    this.physics.add.collider(player, test) ;
+    this.physics.add.collider(player, beat1) ;
+    this.physics.add.collider(player, beat2) ;
+    this.physics.add.collider(player, beat3) ;
+    this.physics.add.collider(player, beat4) ;
 
 
 
