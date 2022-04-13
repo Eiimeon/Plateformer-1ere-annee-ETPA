@@ -54,6 +54,10 @@ var text ;
 
 
 function preload (){
+
+    this.load.tilemapTiledJSON('map','assets/images/map/proto.json') ;
+    this.load.image('tileset','assets/images/map/tilesetProto.png')
+
     this.load.image('bSquare', 'assets/images/bSquare.png') ;
     this.load.image('arm', 'assets/images/crashArm.png')
     this.load.image('crash', 'assets/images/crash.png') ;
@@ -79,12 +83,23 @@ Partie 1 : Groupes et Parser
 
 function create() {
 
+    this.add.image(0,0,'tileset').setOrigin(0,0) ;
+
+    const map = this.make.tilemap({key:'map'}) ;
+    const tileset = map.addTilesetImage('tilesetProto','tileset') ;
+    map.createLayer('sky',tileset) ;
+    platforms = map.createLayer('platform',tileset) ;
+    console.log(platforms.body) ; // -> null
+    
+    platforms.setCollisionByExclusion(-1,true) ;
+    console.log(platforms.body) ;
     
 
     //  Using the Scene Data Plugin we can store data on a Scene level
     this.data.set('beatCount', 0) ;
 
 
+    /*
     // Différents groupes et vecteurs d'objets
     platforms = this.physics.add.staticGroup();
     peches = this.physics.add.staticGroup();
@@ -168,22 +183,23 @@ function create() {
             }
         }
     }
-    
+    */
     // Création du personnage joueur et ses bras après le niveau, pour être on top
     player = new Chara(this,64+32,0,'crash') ;
-    peches.create(37*64,9*64,'peche').setOrigin(0,0).refreshBody() ;
+    //peches.create(37*64,9*64,'peche').setOrigin(0,0).refreshBody() ;
     //player.setScale(0.25)
 
 
 /*##################################################################################################################################################
 Partie 2 : Collisions
 ##################################################################################################################################################*/
-
+    
     // Joueur avec le sol
     this.physics.add.collider(player, platforms,function(currPlayer) { 
         currPlayer.bumped = false ; // Gestion galère du reset du bumped, pourrait poser problème dans  (cf. Chara)
     },null,this);
 
+    /*
     this.physics.add.overlap(player, deathBoxes, function() { 
         this.scene.restart() ;
     },null,this);
@@ -215,7 +231,7 @@ Partie 2 : Collisions
         
     },null,this);
 
-
+    */
   
     
 /*##################################################################################################################################################
@@ -336,7 +352,7 @@ function update() {
 
     //console.log(timer.getElapsed()) ;
 
-    juke.start(keyA) ;
+    //juke.start(keyA) ;
 
     //Maintient de l'affichage du score à sa place et mise à jour du score
     /*

@@ -76,13 +76,14 @@ class Chara extends Phaser.Physics.Arcade.Sprite {
     
     // Saut avec nuancier à la MeatBoy, et vitesse terminale pour mieux viser les sauts
     jump(keySpace,gamepad) {
+        console.log(this.jumpAllowed) ;
         if ( gamepad != undefined ) {
             if ( this.dashAllowed ) {
                 if ( this.body.onFloor() ) { // Si on touche le sol, on ré autorise le saut, et on est plus bumped
                     this.jumpAllowed = true ;
                     //this.bumped = false ; // fonctionne mal
                 }
-                if ((keySpace.isDown || gamepad.A) && this.body.touching.down && this.jumpAllowed == true) {
+                if ((keySpace.isDown || gamepad.A) && this.body.onFloor() && this.jumpAllowed == true) {
                     this.setVelocityY(-550) ;    
                 }
                 if ( !this.body.touching.down && !(keySpace.isDown || gamepad.A) && this.body.velocity.y < 0 && this.bumped == false) {
@@ -100,7 +101,7 @@ class Chara extends Phaser.Physics.Arcade.Sprite {
                     this.jumpAllowed = true ;
                     //this.bumped = false ; // fonctionne mal
                 }
-                if ((keySpace.isDown) && this.body.touching.down && this.jumpAllowed == true) {
+                if ((keySpace.isDown) && this.body.onFloor() && this.jumpAllowed == true) {
                     this.setVelocityY(-550) ;    
                 }
                 if ( !this.body.touching.down && !(keySpace.isDown) && this.body.velocity.y < 0 && this.bumped == false) {
