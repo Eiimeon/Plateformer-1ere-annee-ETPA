@@ -10,7 +10,7 @@ Partie 3 : Camera, Contrôles, et Textes
 Partie 4 : Update
 
 ##################################################################################################################################################*/
-var g = 1000 ;
+var g = 1500 ;
 
 var config = {
     type : Phaser.AUTO ,
@@ -20,7 +20,7 @@ var config = {
         default: 'arcade',
         arcade: {
             gravity: { y : g },
-            debug: true
+            //debug: true
         }
     },
     input: {
@@ -49,6 +49,17 @@ var test ;
 var juke ;
 var deathBoxes ;
 var peches ;
+
+var platB1 ;
+var platB1db
+var beat1 ;
+var beat1db
+var platB2 ;
+var beat2 ;
+var platB3 ;
+var beat3 ;
+var platB4 ;
+var beat4 ;
 
 var text ;
 
@@ -88,104 +99,45 @@ function create() {
     const map = this.make.tilemap({key:'map'}) ;
     const tileset = map.addTilesetImage('tilesetProto','tileset') ;
     map.createLayer('sky',tileset) ;
-    platforms = map.createLayer('platform',tileset) ;
+    platforms = map.createLayer('platforms',tileset) ;
     console.log(platforms.body) ; // -> null
     
     platforms.setCollisionByExclusion(-1,true) ;
     console.log(platforms.body) ;
+
+    deathBoxes = map.createLayer('deathBoxes',tileset) ;
+    deathBoxes.setCollisionByExclusion(-1,true) ;
+
+    player = new Chara(this,64+32,640,'crash').setOrigin(0,0) ;
+
+    platB1 = map.createLayer('beat1',tileset) ;
+    platB1.setCollisionByExclusion(-1,true) ;
+    beat1 = new RythmMover (platB1,[1,0,0,0],player) ;
+    platB1db = map.createLayer('beat1db',tileset) ;
+    platB1db.setCollisionByExclusion(-1,true) ;
+    beat1db = new RythmMover (platB1db,[1,0,0,0],player) ;
+
+    platB2 = map.createLayer('beat2',tileset) ;
+    platB2.setCollisionByExclusion(-1,true) ;
+    beat2 = new RythmMover (platB2,[0,1,0,0],player) ;
+
+    platB3 = map.createLayer('beat3',tileset) ;
+    platB3.setCollisionByExclusion(-1,true) ;
+    beat3 = new RythmMover (platB3,[0,0,1,0],player) ;
+
+    platB4 = map.createLayer('beat4',tileset) ;
+    platB4.setCollisionByExclusion(-1,true) ;
+    beat4 = new RythmMover (platB4,[0,0,0,1],player) ;
+
+    juke = new JukeBox(this) ;
     
 
     //  Using the Scene Data Plugin we can store data on a Scene level
     this.data.set('beatCount', 0) ;
 
 
-    /*
-    // Différents groupes et vecteurs d'objets
-    platforms = this.physics.add.staticGroup();
-    peches = this.physics.add.staticGroup();
-    deathBoxes = this.physics.add.staticGroup();
-    //test = new RythmPlat(this.physics.world,this) ;
-    juke = new JukeBox(this) ;
-
-    beat1 = new Array() ;
-    beat2 = new Array() ;
-    beat3 = new Array() ;
-    beat4 = new Array() ;
-
     
-
-    // Ces images constituent le fond
-    this.add.image(0,0,'bg').setOrigin(0,0) ;
-    this.add.image(1280,0,'bg').setOrigin(0,0) ;
-    this.add.image(1280*2,0,'bg').setOrigin(0,0) ;
-    this.add.image(1280*3,0,'bg').setOrigin(0,0) ;
-    this.add.image(1280*3+5*64,0,'bg').setOrigin(0,0) ;
-    
-    // Première version du niveau pour les tests
-    // Rename en 'level' pour essayer'
-    var level0 = [
-        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], 
-        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], 
-        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [1,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,1,1,1,1,1,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0],
-        [1,2,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [1,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [1,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,0,0,0,2,0,0],
-        [1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0],
-        [1,1,1,1,1,1,1,1,1,1,1,1,1,5,5,5,5,5,1,1,1,1,1,1,1,5,5,5,5,1,1,1,1,1,5,5,5,5,5,5]
-    ] ;
-
-    var level = [
-        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], 
-        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], 
-        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [1,0,0,0,0,0,5,5,0,6,6,0,7,7,0,8,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,0,0,0,2,0,0],
-        [1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0],
-        [1,1,1,1,1,1,1,1,1,1,1,1,1,3,3,3,3,3,1,1,1,1,1,1,1,3,3,3,3,1,1,1,1,1,3,3,3,3,3,3]
-    ] ;
-
-
-    // Parser, crée à l'emplacement de chaque case l'objet correspondant au nombre, rien si 0
-    for ( var i = 0 ; i < level.length ; i++ ) {
-        for ( var j=0 ; j < level[i].length ; j++ ) {
-            if ( level[i][j] == 1 ) {
-                platforms.create(j*64,i*64,'bSquare').setOrigin(0,0).refreshBody() ;
-            }
-            if ( level[i][j] == 2 ) {
-                //test.create(j*64,i*64,'crate',[1]).setOrigin(0,0).refreshBody() ;
-            }
-            if ( level[i][j] == 4 ) {
-                peches.create(j*64,i*64,'peche').setOrigin(0,0).refreshBody() ;
-            }
-            if ( level[i][j] == 3 ) {
-                deathBoxes.create(j*64,i*64,'crate').setOrigin(0,0).refreshBody() ;
-            }
-            if ( level[i][j] == 5 ) {
-                beat1.push(new RythmPlat(this,j*64,i*64,'crate',[1,0,0,0]));
-            }
-            if ( level[i][j] == 6 ) {
-                beat2.push(new RythmPlat(this,j*64,i*64,'crate',[0,1,0,0]));
-            }
-            if ( level[i][j] == 7 ) {
-                beat3.push(new RythmPlat(this,j*64,i*64,'crate',[0,0,1,0]));
-            }
-            if ( level[i][j] == 8 ) {
-                beat4.push(new RythmPlat(this,j*64,i*64,'crate',[0,0,0,1]));
-            }
-        }
-    }
-    */
-    // Création du personnage joueur et ses bras après le niveau, pour être on top
-    player = new Chara(this,64+32,0,'crash') ;
+   
     //peches.create(37*64,9*64,'peche').setOrigin(0,0).refreshBody() ;
     //player.setScale(0.25)
 
@@ -195,21 +147,31 @@ Partie 2 : Collisions
 ##################################################################################################################################################*/
     
     // Joueur avec le sol
-    this.physics.add.collider(player, platforms,function(currPlayer) { 
+    this.physics.add.collider(player, platforms,function(currPlayer,currPlat) { 
         currPlayer.bumped = false ; // Gestion galère du reset du bumped, pourrait poser problème dans  (cf. Chara)
+        //console.log('Plat x : ' + currPlat.x * 64) ;
+        //console.log('Player x : ' + currPlayer.x) ;
+        if ((currPlayer.x > currPlat.x * 64 + 16) && (currPlayer.x < currPlat.x*64 -16) && (currPlayer.y > currPlat.y * 64 + 16) && (currPlayer.y < currPlat.y*64 -16)) {
+            currPlayer.die() ;
+        }
     },null,this);
 
-    /*
-    this.physics.add.overlap(player, deathBoxes, function() { 
+    
+    this.physics.add.collider(player, deathBoxes, function() { 
+        console.log('test')
         this.scene.restart() ;
     },null,this);
 
-    this.physics.add.collider(player, beat1) ;
-    this.physics.add.collider(player, beat2) ;
-    this.physics.add.collider(player, beat3) ;
-    this.physics.add.collider(player, beat4) ;
+    
+    this.physics.add.collider(player, platB1) ;
+    this.physics.add.collider(player, platB1db, function(currPlayer) {
+        currPlayer.die() ;
+    }) ;
+    this.physics.add.collider(player, platB2) ;
+    this.physics.add.collider(player, platB3) ;
+    this.physics.add.collider(player, platB4) ;
 
-
+    /*
 
     // Ramasse les pêches
     this.physics.add.overlap(player, peches,function(currPlayer,currPeche) { 
@@ -242,7 +204,7 @@ Partie 3 : Camera, contrôles, et textes
     // Camera
     cam = this.cameras.main ;
     cam.startFollow(player) ;
-    cam.setBounds(0,0,12800,640,true,true,true) ; // Empêche de voir sous le sol notamment
+    cam.setBounds(0,0,12800,640*2,true,true,true) ; // Empêche de voir sous le sol notamment
     cam.setZoom(1) ;
 
 
@@ -269,13 +231,13 @@ Partie 4 : Update
 
 function update() {
 
-    if (this.input.gamepad.total === 0)
+    /*if (this.input.gamepad.total === 0)
     {
         return;
-    }
+    }*/
 
-    var debug = [];
-    var pads = this.input.gamepad.gamepads;
+    var debug = [] ;
+    var pads = this.input.gamepad.gamepads ;
     // var pads = this.input.gamepad.getAll();
     // var pads = navigator.getGamepads();
 
@@ -352,7 +314,7 @@ function update() {
 
     //console.log(timer.getElapsed()) ;
 
-    //juke.start(keyA) ;
+    juke.start(keyA) ;
 
     //Maintient de l'affichage du score à sa place et mise à jour du score
     /*

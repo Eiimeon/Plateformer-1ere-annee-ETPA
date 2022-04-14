@@ -22,7 +22,8 @@ class Chara extends Phaser.Physics.Arcade.Sprite {
         this.dashAllowed = true ;
         this.dashing = false ;
 
-        this.runSpeed = 400 ;
+        this.runSpeed = 500 ;
+        this.jumpSpeed = 800 ;
         this.dashSpeed = 1000 ;
         this.dashDuration = 200 ;
 
@@ -45,7 +46,7 @@ class Chara extends Phaser.Physics.Arcade.Sprite {
                         this.flipX = false ;
                     }
                 }
-                else if ( (!cursors.left.isDown && !cursors.right.isDown) && (!gamepad.left && !gamepad.right) && this.body.onFloor()) {
+                else if ( (!cursors.left.isDown && !cursors.right.isDown) && (!gamepad.left && !gamepad.right)) {
                     this.setVelocityX(0);
                     //this.setDragX(this.friction) ;
                 }
@@ -65,7 +66,7 @@ class Chara extends Phaser.Physics.Arcade.Sprite {
                         this.flipX = false ;
                     }
                 }
-                else if ( (!cursors.left.isDown && !cursors.right.isDown) && this.body.onFloor()) {
+                else if ( (!cursors.left.isDown && !cursors.right.isDown)) {
                     this.setVelocityX(0);
                     //this.setDragX(this.friction) ;
                 }
@@ -76,7 +77,6 @@ class Chara extends Phaser.Physics.Arcade.Sprite {
     
     // Saut avec nuancier à la MeatBoy, et vitesse terminale pour mieux viser les sauts
     jump(keySpace,gamepad) {
-        console.log(this.jumpAllowed) ;
         if ( gamepad != undefined ) {
             if ( this.dashAllowed ) {
                 if ( this.body.onFloor() ) { // Si on touche le sol, on ré autorise le saut, et on est plus bumped
@@ -84,7 +84,7 @@ class Chara extends Phaser.Physics.Arcade.Sprite {
                     //this.bumped = false ; // fonctionne mal
                 }
                 if ((keySpace.isDown || gamepad.A) && this.body.onFloor() && this.jumpAllowed == true) {
-                    this.setVelocityY(-550) ;    
+                    this.setVelocityY(-this.jumpSpeed) ;    
                 }
                 if ( !this.body.touching.down && !(keySpace.isDown || gamepad.A) && this.body.velocity.y < 0 && this.bumped == false) {
                     this.setVelocityY ( 0 ) ; // Si on est pas bumped et qu'on appuie pas sur haut, arrête de monter (nuancier MeatBoy)
@@ -102,7 +102,7 @@ class Chara extends Phaser.Physics.Arcade.Sprite {
                     //this.bumped = false ; // fonctionne mal
                 }
                 if ((keySpace.isDown) && this.body.onFloor() && this.jumpAllowed == true) {
-                    this.setVelocityY(-550) ;    
+                    this.setVelocityY(-this.jumpSpeed) ;    
                 }
                 if ( !this.body.touching.down && !(keySpace.isDown) && this.body.velocity.y < 0 && this.bumped == false) {
                     this.setVelocityY ( 0 ) ; // Si on est pas bumped et qu'on appuie pas sur haut, arrête de monter (nuancier MeatBoy)
@@ -164,19 +164,19 @@ class Chara extends Phaser.Physics.Arcade.Sprite {
             }
         }
         else {
-            if ( (dashKey.isDown || gamepad.B) && this.dashAllowed && !this.body.onFloor()) {
+            if ( (dashKey.isDown) && this.dashAllowed && !this.body.onFloor()) {
                 // Préparation du vecteur vitesse du dash
                 var _direction = new Phaser.Math.Vector2(0,0) ;
-                if ( cursors.up.isDown || gamepad.up) {
+                if ( cursors.up.isDown) {
                     _direction.add(new  Phaser.Math.Vector2(0,-1)) ;
                 }
-                if ( cursors.left.isDown || gamepad.left ) {
+                if ( cursors.left.isDown) {
                     _direction.add(new  Phaser.Math.Vector2(-1,0)) ;
                 }
-                if ( cursors.down.isDown || gamepad.down ) {
+                if ( cursors.down.isDown) {
                     _direction.add(new  Phaser.Math.Vector2(0,1)) ;
                 }
-                if ( cursors.right.isDown || gamepad.right ) {
+                if ( cursors.right.isDown) {
                     _direction.add(new  Phaser.Math.Vector2(1,0)) ;
                 }
                 _direction.normalize() ; // ça marche
@@ -263,6 +263,10 @@ class Chara extends Phaser.Physics.Arcade.Sprite {
     bump() {
         this.bumped = true ;
         this.setVelocityY(-550) ;
+    }
+
+    die() {
+        this.scene.scene.restart() ;
     }
 
 
