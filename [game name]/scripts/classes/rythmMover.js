@@ -17,9 +17,9 @@ class RythmMover {
             //console.log('beatOut') ;
             this.plat.x = - 6400 ;
         }
-        console.log('Player : ' + this.player.x + ' , ' + this.player.y ) ;
-        console.log('Player : ' + this.plat.x + ' , ' + this.plat.y ) ;
-        console.log((this.player.x > this.plat.x * 64 + 16) && (this.player.x < this.plat.x*64 -16) && (this.player.y > this.plat.y * 64 + 16) && (this.player.y < this.plat.y*64 -16)) ;
+        //console.log('Player : ' + this.player.x + ' , ' + this.player.y ) ;
+        //console.log('Player : ' + this.plat.x + ' , ' + this.plat.y ) ;
+        //console.log((this.player.x > this.plat.x * 64 + 16) && (this.player.x < this.plat.x*64 -16) && (this.player.y > this.plat.y * 64 + 16) && (this.player.y < this.plat.y*64 -16)) ;
         if ((this.plat.x > this.player.x * 64 + 16) && (this.player.x < this.plat.x*64 -16) && (this.player.y > this.plat.y * 64 + 16) && (this.player.y < this.plat.y*64 -16)) {
             this.player.die() ;
         }

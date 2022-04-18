@@ -14,8 +14,8 @@ var g = 1500 ;
 
 var config = {
     type : Phaser.AUTO ,
-    width : 1280  ,
-    height : 640,
+    width : 1900  ,
+    height : 1080-128,
     physics: {  
         default: 'arcade',
         arcade: {
@@ -49,7 +49,11 @@ var test ;
 var juke ;
 var deathBoxes ;
 var peches ;
+//var timer = this.time.clock.addEvent({delay : 1}) ;
 
+var spawns = [[64+32,640*3 + 320]] ;
+
+// 4Beats plats
 var platB1 ;
 var platB1db
 var beat1 ;
@@ -61,6 +65,16 @@ var beat3 ;
 var platB4 ;
 var beat4 ;
 
+// 8Beats plats
+var p81 , b81 ;
+var p82 , b82 ;
+var p83 , b83 ;
+var p84 , b84 ;
+var p85 , b85 ;
+var p86 , b86 ;
+var p87 , b87 ;
+var p88 , b88 ;
+
 var text ;
 
 
@@ -69,8 +83,10 @@ function preload (){
     this.load.tilemapTiledJSON('map','assets/images/map/proto.json') ;
     this.load.image('tileset','assets/images/map/tilesetProto.png')
 
+    this.load.spritesheet('runSheet','assets/images/runAnimTestSheet.png', {frameWidth : 1000, frameHeight : 1270}) ;
+
     this.load.image('bSquare', 'assets/images/bSquare.png') ;
-    this.load.image('arm', 'assets/images/crashArm.png')
+    this.load.image('miko','assets/images/miko0.png') ;
     this.load.image('crash', 'assets/images/crash.png') ;
     this.load.image('foe', 'assets/images/foe.png') ;
     this.load.image('bg', 'assets/images/sky.png') ;
@@ -98,7 +114,9 @@ function create() {
 
     const map = this.make.tilemap({key:'map'}) ;
     const tileset = map.addTilesetImage('tilesetProto','tileset') ;
+
     map.createLayer('sky',tileset) ;
+    map.createLayer('pointilles',tileset) ;
     platforms = map.createLayer('platforms',tileset) ;
     console.log(platforms.body) ; // -> null
     
@@ -108,26 +126,64 @@ function create() {
     deathBoxes = map.createLayer('deathBoxes',tileset) ;
     deathBoxes.setCollisionByExclusion(-1,true) ;
 
-    player = new Chara(this,64+32,640,'crash').setOrigin(0,0) ;
+    //player = new Chara(this,64+32,640*4-256,'crash').setOrigin(0,0) ;
+    player = new Chara(this,spawns[0][0],spawns[0][1],'miko').setOrigin(0,0) ;
+    player.setSize(350,896 ) ;
+    player.setScale(1/7) ;
+    
 
-    platB1 = map.createLayer('beat1',tileset) ;
+    platB1 = map.createLayer('4beats/beat1',tileset) ;
     platB1.setCollisionByExclusion(-1,true) ;
     beat1 = new RythmMover (platB1,[1,0,0,0],player) ;
-    platB1db = map.createLayer('beat1db',tileset) ;
+    /*platB1db = map.createLayer('4beats/beat1db',tileset) ;
     platB1db.setCollisionByExclusion(-1,true) ;
-    beat1db = new RythmMover (platB1db,[1,0,0,0],player) ;
+    beat1db = new RythmMover (platB1db,[1,0,0,0],player) ;*/
 
-    platB2 = map.createLayer('beat2',tileset) ;
+    platB2 = map.createLayer('4beats/beat2',tileset) ;
     platB2.setCollisionByExclusion(-1,true) ;
     beat2 = new RythmMover (platB2,[0,1,0,0],player) ;
 
-    platB3 = map.createLayer('beat3',tileset) ;
+    platB3 = map.createLayer('4beats/beat3',tileset) ;
     platB3.setCollisionByExclusion(-1,true) ;
     beat3 = new RythmMover (platB3,[0,0,1,0],player) ;
 
-    platB4 = map.createLayer('beat4',tileset) ;
+    platB4 = map.createLayer('4beats/beat4',tileset) ;
     platB4.setCollisionByExclusion(-1,true) ;
     beat4 = new RythmMover (platB4,[0,0,0,1],player) ;
+
+
+    p81 = map.createLayer('8beats/beat81',tileset) ;
+    p81.setCollisionByExclusion(-1,true) ;
+    b81 = new RythmMover(p81,[1,0,0,0,0,0,0,0],player) ;
+
+    p82 = map.createLayer('8beats/beat82',tileset) ;
+    p82.setCollisionByExclusion(-1,true) ;
+    b82 = new RythmMover(p82,[0,1,0,0,0,0,0,0],player) ;
+
+    p83 = map.createLayer('8beats/beat83',tileset) ;
+    p83.setCollisionByExclusion(-1,true) ;
+    b83 = new RythmMover(p83,[0,0,1,0,0,0,0,0],player) ;
+
+    p84 = map.createLayer('8beats/beat84',tileset) ;
+    p84.setCollisionByExclusion(-1,true) ;
+    b84 = new RythmMover(p84,[0,0,0,1,0,0,0,0],player) ;
+
+    p85 = map.createLayer('8beats/beat85',tileset) ;
+    p85.setCollisionByExclusion(-1,true) ;
+    b85 = new RythmMover(p85,[0,0,0,0,1,0,0,0],player) ;
+
+    p86 = map.createLayer('8beats/beat86',tileset) ;
+    p86.setCollisionByExclusion(-1,true) ;
+    b86 = new RythmMover(p86,[0,0,0,0,0,1,0,0],player) ;
+
+    p87 = map.createLayer('8beats/beat87',tileset) ;
+    p87.setCollisionByExclusion(-1,true) ;
+    b87 = new RythmMover(p87,[0,0,0,0,0,0,1,0],player) ;
+
+    p88 = map.createLayer('8beats/beat88',tileset) ;
+    p88.setCollisionByExclusion(-1,true) ;
+    b88 = new RythmMover(p88,[0,0,0,0,0,0,0,1],player) ;
+
 
     juke = new JukeBox(this) ;
     
@@ -157,9 +213,9 @@ Partie 2 : Collisions
     },null,this);
 
     
-    this.physics.add.collider(player, deathBoxes, function() { 
+    this.physics.add.collider(player, deathBoxes, function(currPlayer) { 
         console.log('test')
-        this.scene.restart() ;
+        currPlayer.die() ;
     },null,this);
 
     
@@ -170,6 +226,17 @@ Partie 2 : Collisions
     this.physics.add.collider(player, platB2) ;
     this.physics.add.collider(player, platB3) ;
     this.physics.add.collider(player, platB4) ;
+
+
+    this.physics.add.collider(player, p81) ;
+    this.physics.add.collider(player, p82) ;
+    this.physics.add.collider(player, p83) ;
+    this.physics.add.collider(player, p84) ;
+    this.physics.add.collider(player, p85) ;
+    this.physics.add.collider(player, p86) ;
+    this.physics.add.collider(player, p87) ;
+    this.physics.add.collider(player, p88) ;
+
 
     /*
 
@@ -204,8 +271,10 @@ Partie 3 : Camera, contrôles, et textes
     // Camera
     cam = this.cameras.main ;
     cam.startFollow(player) ;
-    cam.setBounds(0,0,12800,640*2,true,true,true) ; // Empêche de voir sous le sol notamment
-    cam.setZoom(1) ;
+    cam.setFollowOffset(-32,-64) ;
+    //cam.setBounds(0,0,12800,640*2,true,true,true) ; // Empêche de voir sous le sol notamment
+    cam.setBounds(0,0,12800,640*4-64,true,true,true) ; // Empêche de voir sous le sol notamment
+    cam.setZoom(1.2) ;
 
 
     // Touches utilisées
@@ -229,7 +298,7 @@ Partie 3 : Camera, contrôles, et textes
 Partie 4 : Update
 ##################################################################################################################################################*/
 
-function update() {
+function update(time) {
 
     /*if (this.input.gamepad.total === 0)
     {
@@ -303,6 +372,7 @@ function update() {
     player.move(cursors,keySpace,pads[0]) ;
     player.jump(keySpace,pads[0]) ;
     player.dash(keyE,cursors,pads[0]) ;
+    player.animate(cursors) ;
 
     player.restoreAbilities() ;
 
@@ -313,6 +383,14 @@ function update() {
     }
 
     //console.log(timer.getElapsed()) ;
+    //console.log(time) ;
+    console.log(player.x)
+    if (juke.on && (player.y > 5*64 || player.x < 4*640-64)) {
+        if ( Math.floor(juke.oneSec.getElapsed()) != 1000 ) {
+            console.log(juke.globalTime+ '.' + Math.floor(juke.oneSec.getElapsed())) ;
+        }
+    }
+
 
     juke.start(keyA) ;
 

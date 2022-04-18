@@ -14,20 +14,57 @@ class Chara extends Phaser.Physics.Arcade.Sprite {
         
 
         this.scene = _scene ;
-        this.arms = arms ; // Le personnage a des bras, qui proviennent du main
-        this.attackDelay = 0 ; // Utilisé dans attack pour la rendre plus visuelle
+
+        // Flags
         this.bumped = false ; // Utilisé dans bump,  pour que le nuancier de saut n'affecte pas les rebonds
         this.jumpAllowed = true ; // Empêche de pouvoir sauter sur les pêches, false quand on touche un pêche, redevient vrai quand on touche le sol
-
         this.dashAllowed = true ;
         this.dashing = false ;
+        this.spawnIndex = 0 ;
 
+        // Paramètres
         this.runSpeed = 500 ;
-        this.jumpSpeed = 800 ;
+        this.jumpSpeed = 850 ;
         this.dashSpeed = 1000 ;
         this.dashDuration = 200 ;
 
         this._currSpeed = new Vector([0,0]) ;
+
+        // Animations
+        this.anims.create({
+            key : 'walk' ,
+            frames : this.anims.generateFrameNumbers('runSheet', {frames : [0,1,2,3,4,5]}) ,
+            frameRate : 8 ,
+            repeat : -1
+        })
+
+        this.anims.create({
+            key : 'idle' ,
+            frames : this.anims.generateFrameNumbers('runSheet', {frames : [6]}) ,
+            frameRate : 8 ,
+            repeat : -1
+        })
+
+        this.anims.create({
+            key : 'jumpUp' ,
+            frames : this.anims.generateFrameNumbers('runSheet', {frames : [7]}) ,
+            frameRate : 8 ,
+            repeat : -1
+        })
+
+        this.anims.create({
+            key : 'jumpDown' ,
+            frames : this.anims.generateFrameNumbers('runSheet', {frames : [8]}) ,
+            frameRate : 8 ,
+            repeat : -1
+        })
+
+        this.anims.create({
+            key : 'jumpPeak' ,
+            frames : this.anims.generateFrameNumbers('runSheet', {frames : [8]}) ,
+            frameRate : 8 ,
+            repeat : -1
+        })
     }
 
     // Déplacements gauche droite basiques
@@ -38,12 +75,14 @@ class Chara extends Phaser.Physics.Arcade.Sprite {
                     this.setVelocityX(-this.runSpeed);
                     if ( !keySpace.isDown ) { // Pour ne pas entrer en conflit avec l'animation d'attaque
                         this.flipX = true ;
+                        this.play('walk') ;
                     }
                 }
                 else if ((cursors.right.isDown || gamepad.right) && this.body.velocity.x < this.runSpeed) {
                     this.setVelocityX(this.runSpeed);
                     if ( !keySpace.isDown ) { // Pour ne pas entrer en conflit avec l'animation d'attaque
                         this.flipX = false ;
+                        this.play('walk') ;
                     }
                 }
                 else if ( (!cursors.left.isDown && !cursors.right.isDown) && (!gamepad.left && !gamepad.right)) {
@@ -56,18 +95,33 @@ class Chara extends Phaser.Physics.Arcade.Sprite {
             if ( !this.dashing ) {
                 if ((cursors.left.isDown) && this.body.velocity.x > -this.runSpeed) {
                     this.setVelocityX(-this.runSpeed);
-                    if ( !keySpace.isDown ) { // Pour ne pas entrer en conflit avec l'animation d'attaque
-                        this.flipX = true ;
+                    this.flipX = true ;
+                    //Sconsole.log('test') ;
+                    //this.play('walk') ;
+                    if ( this.body.onFloor() ) { 
+                        
+                        //this.play('walk') ;
+                    }
+                    else {
+                        //this.play('idle') ;
                     }
                 }
                 else if ((cursors.right.isDown) && this.body.velocity.x < this.runSpeed) {
                     this.setVelocityX(this.runSpeed);
-                    if ( !keySpace.isDown ) { // Pour ne pas entrer en conflit avec l'animation d'attaque
-                        this.flipX = false ;
+                    this.flipX = false ;
+                    //console.log('test') ;
+                    //this.play('walk') ;
+                    if ( this.body.onFloor() ) { 
+                        
+                        //this.play('walk') ;
+                    }
+                    else {
+                        //this.play('idle') ;
                     }
                 }
                 else if ( (!cursors.left.isDown && !cursors.right.isDown)) {
                     this.setVelocityX(0);
+                    //this.play('idle') ;
                     //this.setDragX(this.friction) ;
                 }
             }
@@ -83,7 +137,8 @@ class Chara extends Phaser.Physics.Arcade.Sprite {
                     this.jumpAllowed = true ;
                     //this.bumped = false ; // fonctionne mal
                 }
-                if ((keySpace.isDown || gamepad.A) && this.body.onFloor() && this.jumpAllowed == true) {
+                if ((keySpace.isDown || gamepad.A) && this.jumpAllowed == true) {
+                    this.jumpAllowed = false ;
                     this.setVelocityY(-this.jumpSpeed) ;    
                 }
                 if ( !this.body.touching.down && !(keySpace.isDown || gamepad.A) && this.body.velocity.y < 0 && this.bumped == false) {
@@ -101,7 +156,8 @@ class Chara extends Phaser.Physics.Arcade.Sprite {
                     this.jumpAllowed = true ;
                     //this.bumped = false ; // fonctionne mal
                 }
-                if ((keySpace.isDown) && this.body.onFloor() && this.jumpAllowed == true) {
+                if ((keySpace.isDown)&& this.jumpAllowed == true) {
+                    this.jumpAllowed = false ;
                     this.setVelocityY(-this.jumpSpeed) ;    
                 }
                 if ( !this.body.touching.down && !(keySpace.isDown) && this.body.velocity.y < 0 && this.bumped == false) {
@@ -259,6 +315,33 @@ class Chara extends Phaser.Physics.Arcade.Sprite {
         }
     }
     
+
+    animate(cursors) {
+        if ( this.body.velocity.y == 0 ) {
+            if ( this.body.onFloor() ) {
+                //console.log ( player.anims.getName()) ;
+                if ( (cursors.left.isDown || cursors.right.isDown)) {
+                    if ( player.anims.getName() != 'walk'  ) {
+                        this.play('walk') ;
+                    }
+                }
+                else {
+                    this.play('idle') ;
+                }
+            }
+            else {
+                this.play('jumpPeak') ;
+            }
+        }
+        else if ( this.body.velocity.y < 0 ) {
+            this.play('jumpUp') ;
+        }
+        else if ( this.body.velocity.y > 0 ) {
+            this.play('jumpDown') ;
+        }
+    }
+
+
     // Comme un saut, déclenché quand on saute sur un ennemi ou une caisse, désactive le nuancier jusqu'au prochain saut
     bump() {
         this.bumped = true ;
@@ -266,7 +349,8 @@ class Chara extends Phaser.Physics.Arcade.Sprite {
     }
 
     die() {
-        this.scene.scene.restart() ;
+        this.x = spawns[this.spawnIndex][0] ;
+        this.y = spawns[this.spawnIndex][1] ;
     }
 
 

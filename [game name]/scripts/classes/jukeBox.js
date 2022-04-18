@@ -3,6 +3,8 @@ class JukeBox {
     constructor (scene) {
         this.scene = scene
         this.timer ;
+        this.oneSec ;
+        this.globalTime = 0;
         //this.music = this.scene.sound.add('angry100bpm') ;
 
         this.on = false ;
@@ -31,6 +33,10 @@ class JukeBox {
             
             this.currMusic.play() ;
 
+            this.oneSec = this.scene.time.addEvent({delay : 1000 , loop : true , callbackScope : this , callback : function(){
+                this.globalTime += 1 ;
+            }});
+
             // Main timer
             this.timer = this.scene.time.addEvent({delay : (1000*60)/115 , loop : true , callbackScope : this , callback : function(){
                 //console.log(this.beatCount) ;
@@ -39,6 +45,15 @@ class JukeBox {
                 beat2.tick3(this.beatCount) ;
                 beat3.tick3(this.beatCount) ;
                 beat4.tick3(this.beatCount) ;
+
+                b81.tick3(this.beatCount) ;
+                b82.tick3(this.beatCount) ;
+                b83.tick3(this.beatCount) ;
+                b84.tick3(this.beatCount) ;
+                b85.tick3(this.beatCount) ;
+                b86.tick3(this.beatCount) ;
+                b87.tick3(this.beatCount) ;
+                b88.tick3(this.beatCount) ;
                 
 
                 if ( this.currMusicBeatCount == this.currMusic.beatLength ) {
