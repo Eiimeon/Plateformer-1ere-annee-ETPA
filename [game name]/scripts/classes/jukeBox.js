@@ -27,9 +27,9 @@ class JukeBox {
     }
 
     start(key) {
-        if ( key.isDown && this.on == false ) {
+        if ( this.on == false ) {
             this.on = true ;
-            console.log(this._music[0]) ;
+            //console.log(this._music[0]) ;
             
             this.currMusic.play() ;
 
@@ -40,20 +40,20 @@ class JukeBox {
             // Main timer
             this.timer = this.scene.time.addEvent({delay : (1000*60)/115 , loop : true , callbackScope : this , callback : function(){
                 //console.log(this.beatCount) ;
-                beat1.tick3(this.beatCount) ;
+                this.scene.beat1.tick3(this.beatCount) ;
                 //beat1db.tick3(this.beatCount) ;
-                beat2.tick3(this.beatCount) ;
-                beat3.tick3(this.beatCount) ;
-                beat4.tick3(this.beatCount) ;
+                this.scene.beat2.tick3(this.beatCount) ;
+                this.scene.beat3.tick3(this.beatCount) ;
+                this.scene.beat4.tick3(this.beatCount) ;
 
-                b81.tick3(this.beatCount) ;
-                b82.tick3(this.beatCount) ;
-                b83.tick3(this.beatCount) ;
-                b84.tick3(this.beatCount) ;
-                b85.tick3(this.beatCount) ;
-                b86.tick3(this.beatCount) ;
-                b87.tick3(this.beatCount) ;
-                b88.tick3(this.beatCount) ;
+                this.scene.b81.tick3(this.beatCount) ;
+                this.scene.b82.tick3(this.beatCount) ;
+                this.scene.b83.tick3(this.beatCount) ;
+                this.scene.b84.tick3(this.beatCount) ;
+                this.scene.b85.tick3(this.beatCount) ;
+                this.scene.b86.tick3(this.beatCount) ;
+                this.scene.b87.tick3(this.beatCount) ;
+                this.scene.b88.tick3(this.beatCount) ;
                 
 
                 if ( this.currMusicBeatCount == this.currMusic.beatLength ) {

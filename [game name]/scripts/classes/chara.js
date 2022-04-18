@@ -321,7 +321,7 @@ class Chara extends Phaser.Physics.Arcade.Sprite {
             if ( this.body.onFloor() ) {
                 //console.log ( player.anims.getName()) ;
                 if ( (cursors.left.isDown || cursors.right.isDown)) {
-                    if ( player.anims.getName() != 'walk'  ) {
+                    if ( this.anims.getName() != 'walk'  ) {
                         this.play('walk') ;
                     }
                 }
@@ -349,8 +349,8 @@ class Chara extends Phaser.Physics.Arcade.Sprite {
     }
 
     die() {
-        this.x = spawns[this.spawnIndex][0] ;
-        this.y = spawns[this.spawnIndex][1] ;
+        this.x = this.scene.spawns[this.spawnIndex][0] ;
+        this.y = this.scene.spawns[this.spawnIndex][1] ;
     }
 
 
