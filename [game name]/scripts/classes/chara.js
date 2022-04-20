@@ -349,8 +349,14 @@ class Chara extends Phaser.Physics.Arcade.Sprite {
     }
 
     die() {
-        this.x = this.scene.spawns[this.spawnIndex][0] ;
-        this.y = this.scene.spawns[this.spawnIndex][1] ;
+        if (this.spawnIndex >= this.scene.spawns.length) {
+            //this.spawnIndex = this.scene.spawns.length - 1 ;
+            this.spawnIndex = 0 ;
+        }
+        this.x = this.scene.spawns[this.spawnIndex].x ;
+        this.y = this.scene.spawns[this.spawnIndex].y - 128 ;
+        this.scene.cameras.main.setBounds(this.scene.screenBounds[this.spawnIndex][0],this.scene.screenBounds[this.spawnIndex][1],this.scene.screenBounds[this.spawnIndex][2],this.scene.screenBounds[this.spawnIndex][3]) ; // Empêche de voir sous le sol notamment
+
     }
 
 

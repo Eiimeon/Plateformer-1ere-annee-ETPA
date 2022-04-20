@@ -9,7 +9,7 @@ class StartScreen extends Phaser.Scene {
     preload() {
         this.load.image('titleScreen','assets/images/titleScreen.png') ;
 
-        this.load.tilemapTiledJSON('map','assets/images/map/proto.json') ;
+        this.load.tilemapTiledJSON('map','assets/images/map/Level1.tmj') ;
         this.load.image('tileset','assets/images/map/tilesetProto++.png')
 
         this.load.spritesheet('runSheet','assets/images/runAnimTestSheet.png', {frameWidth : 1000, frameHeight : 1270}) ;
@@ -23,6 +23,7 @@ class StartScreen extends Phaser.Scene {
         this.load.image('crate', 'assets/images/crate.png') ;
         this.load.image('peche', 'assets/images/peche.png') ;
         this.load.image('testNet', 'assets/images/testNet.PNG') ;
+        this.load.image('greenBlock', 'assets/images/greenBlock.png')
 
         this.load.audio('120bpm', 'assets/musiques/120bpm.mp3') ;
         this.load.audio('angry100bpm', 'assets/musiques/angry3.wav') ;
