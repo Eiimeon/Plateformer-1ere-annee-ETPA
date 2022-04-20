@@ -15,7 +15,15 @@ class Level1 extends Phaser.Scene {
         this.platforms ;
         this.juke ;
         this.deathBoxes ;
-        this.spawns = [[64+32,640*3 + 320]] ;
+        //this.spawns = [[64+32,640*3 + 320]] ;
+        //this.spawns = [[64+32, 320]] ;
+        this.spawns ;
+        this.checkpoints ;
+        this.screenBounds = [
+            [0,0,32*64,14*64],
+            [32*64,0,54*64,15*64],
+            [0,13*64,37*64,13*64]
+        ]
 
         // 4 beat plats
         this.platB1 ;
@@ -62,6 +70,16 @@ Partie 1 : Groupes et Parser
         const map = this.make.tilemap({key:'map'}) ;
         const tileset = map.addTilesetImage('tilesetProto','tileset') ;
 
+        // Object layers
+
+        var _checkpoints = this.physics.add.group({allowGravity : false , immovable : true}) ;
+
+        map.getObjectLayer('portals').objects.forEach(function(currCheck){_checkpoints.create(currCheck.x, currCheck.y-64, 'greenBlock').setOrigin(0);});
+
+        this.checkpoints = _checkpoints ;
+
+        this.spawns = map.getObjectLayer('spawns').objects ;
+
         //map.createLayer('sky',tileset) ;
         map.createLayer('pointilles',tileset) ;
         this.platforms = map.createLayer('platforms',tileset) ;
@@ -74,9 +92,10 @@ Partie 1 : Groupes et Parser
         this.deathBoxes.setCollisionByExclusion(-1,true) ;
 
         //player = new Chara(this,64+32,640*4-256,'crash').setOrigin(0,0) ;
-        this.player = new Chara(this,this.spawns[0][0],this.spawns[0][1],'miko').setOrigin(0,0) ;
+        this.player = new Chara(this,0,0,'miko').setOrigin(0,0) ;
         this.player.setSize(350,896 ) ;
         this.player.setScale(1/7) ;
+        this.player.die() ;
         
 
         this.platB1 = map.createLayer('4beats/beat1',tileset) ;
@@ -166,6 +185,10 @@ Partie 1 : Groupes et Parser
             currPlayer.die() ;
         },null,this);
 
+        this.physics.add.overlap(this.player,this.checkpoints,function(currPlayer) {
+            currPlayer.spawnIndex += 1;
+            currPlayer.die() ;
+        }) ;
         
         this.physics.add.collider(this.player, this.platB1) ;
         this.physics.add.collider(this.player, this.platB1db, function(currPlayer) {
@@ -221,7 +244,7 @@ Partie 1 : Groupes et Parser
         cam.startFollow(this.player) ;
         cam.setFollowOffset(-32,-64) ;
         //cam.setBounds(0,0,12800,640*2,true,true,true) ; // Empêche de voir sous le sol notamment
-        cam.setBounds(0,0,12800,640*4-64,true,true,true) ; // Empêche de voir sous le sol notamment
+        cam.setBounds(this.screenBounds[this.player.spawnIndex][0],this.screenBounds[this.player.spawnIndex][1],this.screenBounds[this.player.spawnIndex][2],this.screenBounds[this.player.spawnIndex][3]) ; // Empêche de voir sous le sol notamment
         cam.setZoom(1.2) ;
 
 
