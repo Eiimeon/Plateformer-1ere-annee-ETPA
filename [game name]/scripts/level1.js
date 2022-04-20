@@ -57,12 +57,12 @@ Partie 1 : Groupes et Parser
 
     create() {
 
-        this.add.image(0,0,'tileset').setOrigin(0,0) ;
+        this.add.image(0,0,'fond').setOrigin(0,0) ;
 
         const map = this.make.tilemap({key:'map'}) ;
         const tileset = map.addTilesetImage('tilesetProto','tileset') ;
 
-        map.createLayer('sky',tileset) ;
+        //map.createLayer('sky',tileset) ;
         map.createLayer('pointilles',tileset) ;
         this.platforms = map.createLayer('platforms',tileset) ;
         console.log(this.platforms.body) ; // -> null
