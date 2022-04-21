@@ -22,7 +22,8 @@ class Level1 extends Phaser.Scene {
         this.screenBounds = [
             [0,0,32*64,14*64],
             [32*64,0,54*64,15*64],
-            [0,13*64,37*64,13*64]
+            [0,13*64,37*64,13*64],
+            [37*64,13*64,12000,13*64]
         ]
 
         // 4 beat plats
@@ -74,7 +75,7 @@ Partie 1 : Groupes et Parser
 
         var _checkpoints = this.physics.add.group({allowGravity : false , immovable : true}) ;
 
-        map.getObjectLayer('portals').objects.forEach(function(currCheck){_checkpoints.create(currCheck.x, currCheck.y-64, 'greenBlock').setOrigin(0);});
+        //map.getObjectLayer('portals').objects.forEach(function(currCheck){_checkpoints.create(currCheck.x, currCheck.y-64, 'greenBlock').setOrigin(0);});
 
         this.checkpoints = _checkpoints ;
 
@@ -243,8 +244,8 @@ Partie 1 : Groupes et Parser
         var cam = this.cameras.main ;
         cam.startFollow(this.player) ;
         cam.setFollowOffset(-32,-64) ;
-        //cam.setBounds(0,0,12800,640*2,true,true,true) ; // Empêche de voir sous le sol notamment
-        cam.setBounds(this.screenBounds[this.player.spawnIndex][0],this.screenBounds[this.player.spawnIndex][1],this.screenBounds[this.player.spawnIndex][2],this.screenBounds[this.player.spawnIndex][3]) ; // Empêche de voir sous le sol notamment
+        cam.setBounds(0,0,12800,640*4-64,true,true,true) ; // Empêche de voir sous le sol notamment
+        //cam.setBounds(this.screenBounds[this.player.spawnIndex][0],this.screenBounds[this.player.spawnIndex][1],this.screenBounds[this.player.spawnIndex][2],this.screenBounds[this.player.spawnIndex][3]) ; // Empêche de voir sous le sol notamment
         cam.setZoom(1.2) ;
 
 

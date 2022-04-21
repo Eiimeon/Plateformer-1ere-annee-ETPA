@@ -1,5 +1,5 @@
 class StartScreen extends Phaser.Scene {
-    constructor() {
+    constructor() { 
         super({
             key : 'StartScreen',
         })
@@ -9,7 +9,7 @@ class StartScreen extends Phaser.Scene {
     preload() {
         this.load.image('titleScreen','assets/images/titleScreen.png') ;
 
-        this.load.tilemapTiledJSON('map','assets/images/map/Level1.tmj') ;
+        this.load.tilemapTiledJSON('map','assets/images/map/proto.json') ;
         this.load.image('tileset','assets/images/map/tilesetProto++.png')
 
         this.load.spritesheet('runSheet','assets/images/runAnimTestSheet.png', {frameWidth : 1000, frameHeight : 1270}) ;
