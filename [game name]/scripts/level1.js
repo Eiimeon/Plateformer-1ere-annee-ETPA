@@ -265,7 +265,7 @@ Partie 1 : Groupes et Parser
         text = this.add.text(10, 30, '', { font: '16px Courier', fill: '#ffffff' });
         */
 
-        //this.time.addEvent({delay : 300 , callbackScope : this , callback : function(){this.juke.start(this.keyA) ;}}) ;
+        this.time.addEvent({delay : 300 , callbackScope : this , callback : function(){this.juke.start(this.keyA) ;}}) ;
     }
 
 /*##################################################################################################################################################
