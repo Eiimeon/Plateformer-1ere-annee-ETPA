@@ -1,22 +1,12 @@
 class levelScene extends Phaser.Scene {
 
-<<<<<<< HEAD
     constructor(config) {
         super(config);
-=======
-    constructor() {
-        super();
->>>>>>> f28cb28607f9d32cb5efd59d6dae1dfd0e2e45f0
 
         this.player;
         this.platforms;
         this.juke;
         this.deathBoxes;
-<<<<<<< HEAD
-=======
-        //this.spawns = [[64+32,640*3 + 320]] ;
-        //this.spawns = [[64+32, 320]] ;
->>>>>>> f28cb28607f9d32cb5efd59d6dae1dfd0e2e45f0
         this.spawns;
         this.checkpoints;
         this.screenBounds = [
@@ -41,13 +31,6 @@ class levelScene extends Phaser.Scene {
         this.text;
     }
 
-<<<<<<< HEAD
-
-=======
-    /*##################################################################################################################################################
-    Partie 0 Variables Globales et Preload
-    ##################################################################################################################################################*/
->>>>>>> f28cb28607f9d32cb5efd59d6dae1dfd0e2e45f0
 
     buildBetterHitBox(layer, hitboxVar, beatmap) {
         for (let i = 0; i < layer.height; i++) {
@@ -249,18 +232,12 @@ class levelScene extends Phaser.Scene {
 
         // Autres
 
-<<<<<<< HEAD
         this.physics.add.overlap(this.player, this.checkpoints, (currPlayer) => {
             currPlayer.spawnIndex += 1;
             currPlayer.die();
             if (currPlayer.spawnIndex  == 1) {
                 this.scene.start('Gym',this.musicScene);
             }
-=======
-        this.physics.add.overlap(this.player, this.checkpoints, function (currPlayer) {
-            currPlayer.spawnIndex += 1;
-            currPlayer.die();
->>>>>>> f28cb28607f9d32cb5efd59d6dae1dfd0e2e45f0
         });
     }
 
