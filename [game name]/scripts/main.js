@@ -21,7 +21,9 @@ var config = {
     },
     scene: [
         StartScreen,
-        Level1
+        MusicAndData,
+        Level1,
+        Gym
     ],
     audio: {
         disableWebAudio: false
