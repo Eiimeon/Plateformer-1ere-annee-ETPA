@@ -21,6 +21,7 @@ var config = {
     },
     scene: [
         StartScreen,
+        MusicAndData,
         Level1
     ],
     audio: {
