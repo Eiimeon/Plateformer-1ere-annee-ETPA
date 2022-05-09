@@ -5,7 +5,6 @@ class levelScene extends Phaser.Scene {
 
         this.player;
         this.platforms;
-        this.juke;
         this.deathBoxes;
         this.spawns;
         this.checkpoints;
@@ -26,8 +25,6 @@ class levelScene extends Phaser.Scene {
         this.db8 = new Array(8);
         this.db8overlap = new Array(8).fill(new Array());
 
-        console.log(this.db4overlap);
-
         this.text;
     }
 
@@ -38,7 +35,6 @@ class levelScene extends Phaser.Scene {
                 if (layer.data[i][j].index >= 0) {
                     hitboxVar.push(new RythmPlat(this, j * 64, i * 64, 'transparent', beatmap).setOrigin(0, 0));
                     if (layer.name = '4beats/deathbox41') {
-                        //console.log(this.db4overlap);
                     }
                 }
             }
@@ -83,51 +79,6 @@ class levelScene extends Phaser.Scene {
 
         // Mise en place des better bodies
 
-        console.log(this.db4overlap);
-
-        /*map.layers.forEach(layer => {
-            switch (layer.name[0]) {
-
-                // Patterns sur 4 temps
-
-                case '4':
-                    if (layer.name.length == 13) { // 4beats/plat4X
-                        var beatmap = new Array(parseInt(layer.name[0])).fill(0);
-                        var index = parseInt(layer.name[layer.name.length - 1]) - 1;
-                        beatmap[index] = 1;
-                        console.log(beatmap);
-                        this.buildBetterHitBox(layer, this.db4overlap[index], beatmap);
-                    }
-                    else if (layer.name.length == 17) { // 4beats/deathbox4X
-                        var beatmap = new Array(parseInt(layer.name[0])).fill(0);
-                        var index = parseInt(layer.name[layer.name.length - 1]) - 1;
-                        beatmap[index] = 1;
-                        console.log(beatmap);
-                        console.log(this.db4overlap);
-                        this.buildBetterHitBox(layer, this.p4overlap[index], beatmap);
-                        console.log(this.db4overlap);
-                    }
-                    break;
-
-                // Patterns sur 8 temps 
-
-                case '8':
-                    if (layer.name.length == 13) { // 8beats/plat8X
-                        var beatmap = new Array(parseInt(layer.name[0])).fill(0);
-                        var index = parseInt(layer.name[layer.name.length - 1]) - 1;
-                        beatmap[index] = 1;
-                        this.buildBetterHitBox(layer, this.db8overlap[index], beatmap);
-                    }
-                    else if (layer.name.length == 17) { // 8beats/deathbox8X
-                        var beatmap = new Array(parseInt(layer.name[0])).fill(0);
-                        var index = parseInt(layer.name[layer.name.length - 1]) - 1;
-                        beatmap[index] = 1;
-                        this.buildBetterHitBox(layer, this.p8overlap[index], beatmap);
-                    }
-                    break;
-            }
-        })*/
-
         map.layers.forEach(layer => {
             switch (layer.name[0] + '-' + layer.name.length) {
 
@@ -138,19 +89,14 @@ class levelScene extends Phaser.Scene {
                     var beatmap = new Array(parseInt(layer.name[0])).fill(0);
                     var index = parseInt(layer.name[layer.name.length - 1]) - 1;
                     beatmap[index] = 1;
-                    console.log(beatmap);
                     this.buildBetterHitBox(layer, this.p4overlap[index], beatmap);
                     break;
 
                 case '4-17': // 4beats/deathbox4X
-                    console.log('test');
                     var beatmap = new Array(parseInt(layer.name[0])).fill(0);
                     var index = parseInt(layer.name[layer.name.length - 1]) - 1;
                     beatmap[index] = 1;
-                    console.log(beatmap);
-                    console.log(this.db4overlap);
                     this.buildBetterHitBox(layer, this.db4overlap[index], beatmap);
-                    console.log(this.db4overlap);
                     break;
 
                 // Patterns sur 8 temps 
@@ -233,10 +179,11 @@ class levelScene extends Phaser.Scene {
         // Autres
 
         this.physics.add.overlap(this.player, this.checkpoints, (currPlayer) => {
-            currPlayer.spawnIndex += 1;
-            currPlayer.die();
-            if (currPlayer.spawnIndex  == 1) {
-                this.scene.start('Gym',this.musicScene);
+            //currPlayer.spawnIndex += 1;
+            //currPlayer.die();
+            if (true) {
+                console.log(((parseInt(this.scene.key[3])+1)%3));
+                this.scene.start('L1_' + ((parseInt(this.scene.key[3])+1)%3), this.musicScene);
             }
         });
     }
@@ -245,7 +192,7 @@ class levelScene extends Phaser.Scene {
 
         // Décor
 
-        this.add.image(0, 0, 'fond').setOrigin(0, 0);
+        this.add.image(0, 0, 'fond').setOrigin(0, 0).setScrollFactor(0);
         map.createLayer('pointilles', tileset);
 
         // Plateformes
@@ -274,8 +221,8 @@ class levelScene extends Phaser.Scene {
         // Camera
         var cam = this.cameras.main;
         cam.startFollow(this.player);
-        cam.setFollowOffset(-32, -64);
-        cam.setBounds(0, 0, 12800, 640 * 4 - 64, true, true, true); // Empêche de voir sous le sol notamment
+        cam.setFollowOffset(0, 0);
+        cam.setBounds(64, 64, map.width * 64 - 128, map.height * 64 - 3 * 64 - 5, true, true, true); // Empêche de voir sous le sol notamment
         //cam.setBounds(this.screenBounds[this.player.spawnIndex][0],this.screenBounds[this.player.spawnIndex][1],this.screenBounds[this.player.spawnIndex][2],this.screenBounds[this.player.spawnIndex][3]) ; // Empêche de voir sous le sol notamment
         cam.setZoom(1.2);
 
@@ -312,6 +259,7 @@ class levelScene extends Phaser.Scene {
     init(_musicScene) {
         this.musicScene = _musicScene;
         this.musicScene.jukebox.setLevelScene(this);
+        console.log('Nouvelle scene : ' + this.scene.key);
     }
 
     update(time) { }

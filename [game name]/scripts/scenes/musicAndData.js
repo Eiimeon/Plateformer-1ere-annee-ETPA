@@ -3,8 +3,6 @@ class MusicAndData extends Phaser.Scene {
         super({
             key: 'MusicAndData',
         })
-
-    //this.jukebox = new JukeBox(this,undefined);
     }
 
     preload() { }
@@ -12,8 +10,7 @@ class MusicAndData extends Phaser.Scene {
     create() {
         
         this.jukebox = new JukeBox(this,null);
-        //this.jukebox.start();
-        this.scene.run('Level1',this);
+        this.scene.run('L1_0',this);
     }
 
     update() {

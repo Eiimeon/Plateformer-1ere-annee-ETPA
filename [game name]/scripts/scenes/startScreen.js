@@ -11,6 +11,12 @@ class StartScreen extends Phaser.Scene {
 
         this.load.tilemapTiledJSON('gym', 'assets/images/map/proto.json');
         this.load.tilemapTiledJSON('level1', 'assets/images/map/level1.tmj');
+
+        // Maps Level 1
+        this.load.tilemapTiledJSON('L1_0', 'assets/images/map/L1_0.tmj');
+        this.load.tilemapTiledJSON('L1_1', 'assets/images/map/L1_1.tmj');
+        this.load.tilemapTiledJSON('L1_2', 'assets/images/map/L1_2.tmj');
+
         this.load.image('tileset', 'assets/images/map/tilesetProto++.png')
 
         this.load.spritesheet('runSheet', 'assets/images/runAnimTestSheet.png', { frameWidth: 1000, frameHeight: 1270 });

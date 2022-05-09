@@ -1,8 +1,8 @@
-class Level1 extends levelScene {
+class L1_0 extends levelScene {
 
     constructor() {
         super({
-            key: 'Level1',
+            key: 'L1_0',
             physics: {
                 default: 'arcade',
                 arcade: {
@@ -13,18 +13,11 @@ class Level1 extends levelScene {
         })
     }
 
-
-    init(_musicScene) {
-        this.musicScene = _musicScene;
-        this.musicScene.jukebox.setLevelScene(this);
-    }
-
     preload() { }
 
     create() {
-        const MAP = this.make.tilemap({ key: 'level1' });
-        const TILESET = MAP.addTilesetImage('tilesetProto', 'tileset');
-        console.log(MAP);
+        const MAP = this.make.tilemap({ key: 'L1_0' });
+        const TILESET = MAP.addTilesetImage('tilesetProto++', 'tileset');
 
         this.buildLevel(MAP, TILESET);
     }

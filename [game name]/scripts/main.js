@@ -1,13 +1,8 @@
-
 /*##################################################################################################################################################
 BOMONT Jérémy (Noé) - ETPA 2021-2022
-[Game name], plateformer de din de première année
+[Game name], plateformer de fin de première année
 
-Partie 0 : Variables Globales et Preload
-Partie 1 : Groupes et Parser
-Partie 2 : Collisions
-Partie 3 : Camera, Contrôles, et Textes
-Partie 4 : Update
+
 
 ##################################################################################################################################################*/
 var g = 1500;
@@ -22,6 +17,9 @@ var config = {
     scene: [
         StartScreen,
         MusicAndData,
+        L1_0,
+        L1_1,
+        L1_2,
         Level1,
         Gym
     ],
@@ -31,6 +29,3 @@ var config = {
 };
 
 var game = new Phaser.Game(config);
-
-
-
