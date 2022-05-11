@@ -8,12 +8,6 @@ class levelScene extends Phaser.Scene {
         this.deathBoxes;
         this.spawns;
         this.checkpoints;
-        this.screenBounds = [
-            [0, 0, 32 * 64, 14 * 64],
-            [32 * 64, 0, 54 * 64, 15 * 64],
-            [0, 13 * 64, 37 * 64, 13 * 64],
-            [37 * 64, 13 * 64, 12000, 13 * 64]
-        ]
 
         this.p4 = new Array(4);
         this.p4overlap = new Array(4).fill(new Array());
@@ -183,7 +177,7 @@ class levelScene extends Phaser.Scene {
             //currPlayer.die();
             if (true) {
                 console.log(((parseInt(this.scene.key[3])+1)%3));
-                this.scene.start('L1_' + ((parseInt(this.scene.key[3])+1)%3), this.musicScene);
+                this.scene.start('L1_' + ((parseInt(this.scene.key[3])+1)%4), this.musicScene);
             }
         });
     }

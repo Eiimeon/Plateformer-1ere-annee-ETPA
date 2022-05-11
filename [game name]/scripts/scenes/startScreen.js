@@ -16,6 +16,13 @@ class StartScreen extends Phaser.Scene {
         this.load.tilemapTiledJSON('L1_0', 'assets/images/map/L1_0.tmj');
         this.load.tilemapTiledJSON('L1_1', 'assets/images/map/L1_1.tmj');
         this.load.tilemapTiledJSON('L1_2', 'assets/images/map/L1_2.tmj');
+        this.load.tilemapTiledJSON('L1_3', 'assets/images/map/L1_3.json');
+        this.load.tilemapTiledJSON('L1_4', 'assets/images/map/L1_4.json');
+        this.load.tilemapTiledJSON('L1_5', 'assets/images/map/L1_5.json');
+        this.load.tilemapTiledJSON('L1_6', 'assets/images/map/L1_6.json');
+        this.load.tilemapTiledJSON('L1_7', 'assets/images/map/L1_7.json');
+        this.load.tilemapTiledJSON('L1_8', 'assets/images/map/L1_8.json');
+        this.load.tilemapTiledJSON('L1_9', 'assets/images/map/L1_9.json');
 
         this.load.image('tileset', 'assets/images/map/tilesetProto++.png')
 

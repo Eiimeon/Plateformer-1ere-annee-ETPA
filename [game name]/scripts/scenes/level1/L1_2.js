@@ -6,7 +6,7 @@ class L1_2 extends levelScene {
             physics: {
                 default: 'arcade',
                 arcade: {
-                    gravity: { y: 1500 },
+                    gravity: { y: g },
                     debug: true
                 }
             }
