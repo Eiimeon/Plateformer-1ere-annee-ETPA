@@ -20,6 +20,9 @@ class L1_0 extends levelScene {
         const TILESET = MAP.addTilesetImage('tilesetProto++', 'tileset');
 
         this.buildLevel(MAP, TILESET);
+
+        this.denial = new Denial(this, 300,500,'miko');
+
     }
 
     update(time) {

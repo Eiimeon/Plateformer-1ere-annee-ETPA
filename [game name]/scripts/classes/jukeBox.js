@@ -102,6 +102,8 @@ class JukeBox {
                         this.currMusicBeatCount = 0;
                     }
 
+                    this.levelScene.denial.denialTick(this.beatCount);
+
                     this.beatCount += 1;
                     this.currMusicBeatCount += 1;
                 }

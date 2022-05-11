@@ -39,6 +39,7 @@ class StartScreen extends Phaser.Scene {
         this.load.image('testNet', 'assets/images/testNet.PNG');
         this.load.image('greenBlock', 'assets/images/greenBlock.png');
         this.load.image('transparent', 'assets/images/transparent.png');
+        this.load.image('beam', 'assets/images/beam.png');
 
         this.load.audio('120bpm', 'assets/musiques/120bpm.mp3');
         this.load.audio('angry100bpm', 'assets/musiques/angry3.wav');
