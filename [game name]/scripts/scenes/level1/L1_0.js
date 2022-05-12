@@ -7,7 +7,7 @@ class L1_0 extends levelScene {
                 default: 'arcade',
                 arcade: {
                     gravity: { y: g },
-                    debug: true
+                    //debug: true
                 }
             }
         })
@@ -21,12 +21,12 @@ class L1_0 extends levelScene {
 
         this.buildLevel(MAP, TILESET);
 
-        this.denial = new Denial(this, 300,500,'miko');
+        //this.denial = new Denial(this, 450,500,'denial',false,[0,0,0,1]);
 
     }
 
-    update(time) {
-        this.standardUpdate(time);
+    update(time,delta) {
+        this.standardUpdate(time,delta);
     }
 
 }

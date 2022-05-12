@@ -18,6 +18,7 @@ class Chara extends Phaser.Physics.Arcade.Sprite {
         // Flags
         this.bumped = false; // Utilisé dans bump,  pour que le nuancier de saut n'affecte pas les rebonds
         this.jumpAllowed = true; // Empêche de pouvoir sauter sur les pêches, false quand on touche un pêche, redevient vrai quand on touche le sol
+        this.latestJumpTime;
         this.dashAllowed = true;
         this.dashing = false;
         this.spawnIndex = 0;
@@ -130,7 +131,7 @@ class Chara extends Phaser.Physics.Arcade.Sprite {
 
 
     // Saut avec nuancier à la MeatBoy, et vitesse terminale pour mieux viser les sauts
-    jump(keySpace, gamepad) {
+    jump(keySpace, gamepad, time) {
         if (gamepad != undefined) {
             if (this.dashAllowed) {
                 if (this.body.onFloor()) { // Si on touche le sol, on ré autorise le saut, et on est plus bumped
@@ -142,7 +143,9 @@ class Chara extends Phaser.Physics.Arcade.Sprite {
                     this.setVelocityY(-this.jumpSpeed);
                 }
                 if (!this.body.touching.down && !(keySpace.isDown || gamepad.A) && this.body.velocity.y < 0 && this.bumped == false) {
-                    this.setVelocityY(0); // Si on est pas bumped et qu'on appuie pas sur haut, arrête de monter (nuancier MeatBoy)
+                    if (time - this.latestJumpTime < 1000) {
+                        this.setVelocityY(0);
+                    }
                 }
 
                 if (this.body.velocity.y > 300) { // Vitesse terminale
@@ -152,16 +155,20 @@ class Chara extends Phaser.Physics.Arcade.Sprite {
         }
         else {
             if (this.dashAllowed) {
-                if (this.body.onFloor()) { // Si on touche le sol, on ré autorise le saut, et on est plus bumped
+                if (this.body.onFloor()) {
                     this.jumpAllowed = true;
-                    //this.bumped = false ; // fonctionne mal
                 }
-                if ((keySpace.isDown) && this.jumpAllowed == true) {
+                if ((keySpace.isDown) && this.jumpAllowed) {
                     this.jumpAllowed = false;
+                    this.latestJumpTime = time;
+                    // console.log(this.latestJumpTime)
                     this.setVelocityY(-this.jumpSpeed);
                 }
-                if (!this.body.touching.down && !(keySpace.isDown) && this.body.velocity.y < 0 && this.bumped == false) {
-                    this.setVelocityY(0); // Si on est pas bumped et qu'on appuie pas sur haut, arrête de monter (nuancier MeatBoy)
+                if (!this.body.blocked.down && !(keySpace.isDown) && this.body.velocity.y < 0) {
+                    console.log(time - this.latestJumpTime < 1000)
+                    if (time - this.latestJumpTime > 150) {
+                        this.setVelocityY(0); // Si on est pas bumped et qu'on appuie pas sur haut, arrête de monter (nuancier MeatBoy)
+                    }
                 }
 
                 if (this.body.velocity.y > 300) { // Vitesse terminale

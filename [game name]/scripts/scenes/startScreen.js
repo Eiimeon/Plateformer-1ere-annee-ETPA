@@ -31,6 +31,7 @@ class StartScreen extends Phaser.Scene {
         this.load.image('fond', 'assets/images/protoFond.png')
         this.load.image('bSquare', 'assets/images/bSquare.png');
         this.load.image('miko', 'assets/images/miko0.png');
+        this.load.image('denial', 'assets/images/denialProto.png');
         this.load.image('crash', 'assets/images/crash.png');
         this.load.image('foe', 'assets/images/foe.png');
         this.load.image('bg', 'assets/images/sky.png');

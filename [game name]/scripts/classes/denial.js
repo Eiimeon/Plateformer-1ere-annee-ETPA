@@ -1,15 +1,17 @@
 class Denial extends Phaser.Physics.Arcade.Sprite {
 
-    constructor(_scene, _x, _y, _key, _flip, _beatMap = [1, 1, 1, 1, 0, 0, 0, 0]) {
+    constructor(_scene, _x, _y, _key, _flip = false, _beatMap = [1, 1, 1, 1, 0, 0, 0, 0]) {
         super(_scene, _x, _y, _key);
 
         _scene.add.existing(this);
         _scene.physics.add.existing(this);
         this.body.setImmovable(true);
-        this.body.setGravity(0, -g);
-        this.setOrigin(0,0);   
-        this.setSize(350,896);
-        this.setScale(1/7);
+        //this.body.setGravity(0, -g);
+        this.setOrigin(0, 0);
+        //this.setSize(350,896);
+        //this.setScale(1/7);
+
+        this.scene = _scene;
 
         this.map = _beatMap;
         this.initialFlip = _flip;
@@ -23,6 +25,9 @@ class Denial extends Phaser.Physics.Arcade.Sprite {
         this.beam.setGravityY(-g);
 
         console.log(this.beam);
+
+        this.scene.physics.add.collider(this, this.scene.platforms);
+        this.scene.physics.add.overlap(this.beam, this.scene.player, () => { this.scene.player.die(); });
     }
 
     flipped(flip) {

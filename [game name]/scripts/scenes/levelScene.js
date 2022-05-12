@@ -217,7 +217,6 @@ class levelScene extends Phaser.Scene {
         cam.startFollow(this.player);
         cam.setFollowOffset(0, 0);
         cam.setBounds(64, 64, map.width * 64 - 128, map.height * 64 - 3 * 64 - 5, true, true, true); // Empêche de voir sous le sol notamment
-        //cam.setBounds(this.screenBounds[this.player.spawnIndex][0],this.screenBounds[this.player.spawnIndex][1],this.screenBounds[this.player.spawnIndex][2],this.screenBounds[this.player.spawnIndex][3]) ; // Empêche de voir sous le sol notamment
         cam.setZoom(1.2);
 
 
@@ -229,10 +228,10 @@ class levelScene extends Phaser.Scene {
         //this.time.addEvent({ delay: 300, callbackScope: this, callback: function () { this.juke.start(this.keyA); } });
     }
 
-    standardUpdate(time) {
+    standardUpdate(time,delta) {
         // Actions (cf chara.js)
         this.player.move(this.cursors, this.keySpace, undefined);
-        this.player.jump(this.keySpace, undefined);
+        this.player.jump(this.keySpace, undefined, time);
         this.player.dash(this.keyE, this.cursors, undefined);
         this.player.animate(this.cursors);
 
@@ -256,5 +255,5 @@ class levelScene extends Phaser.Scene {
         console.log('Nouvelle scene : ' + this.scene.key);
     }
 
-    update(time) { }
+    update(time,delta) { }
 }

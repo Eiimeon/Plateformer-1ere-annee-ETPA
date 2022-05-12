@@ -22,8 +22,8 @@ class L1_7 extends levelScene {
         this.buildLevel(MAP, TILESET);
     }
 
-    update(time) {
-        this.standardUpdate(time);
+    update(time,delta) {
+        this.standardUpdate(time,delta);
     }
 
 }

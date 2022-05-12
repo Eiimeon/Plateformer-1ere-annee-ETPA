@@ -7,7 +7,7 @@ class L1_1 extends levelScene {
                 default: 'arcade',
                 arcade: {
                     gravity: { y: g },
-                    debug: true
+                    //debug: true
                 }
             }
         })
@@ -22,8 +22,8 @@ class L1_1 extends levelScene {
         this.buildLevel(MAP, TILESET);
     }
 
-    update(time) {
-        this.standardUpdate(time);
+    update(time,delta) {
+        this.standardUpdate(time,delta);
     }
 
 }

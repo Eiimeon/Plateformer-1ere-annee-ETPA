@@ -102,7 +102,9 @@ class JukeBox {
                         this.currMusicBeatCount = 0;
                     }
 
-                    this.levelScene.denial.denialTick(this.beatCount);
+                    try { this.levelScene.denial.denialTick(this.beatCount); }
+                    catch (error) { /*console.log(error);*/}
+
 
                     this.beatCount += 1;
                     this.currMusicBeatCount += 1;
