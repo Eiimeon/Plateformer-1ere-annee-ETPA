@@ -14,4 +14,12 @@ class MusicObj {
     play() {
         this.sound.play();
     }
+
+    pause() {
+        this.sound.pause();
+    }
+
+    resume() {
+        this.sound.resume();
+    }
 }

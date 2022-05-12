@@ -21,7 +21,7 @@ class L1_0 extends levelScene {
 
         this.buildLevel(MAP, TILESET);
 
-        //this.denial = new Denial(this, 450,500,'denial',false,[0,0,0,1]);
+        // this.denial = new Denial(this, 450,500,'denial',true,[0,0,0,1]);
 
     }
 

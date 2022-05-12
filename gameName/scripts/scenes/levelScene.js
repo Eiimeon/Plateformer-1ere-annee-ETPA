@@ -210,8 +210,6 @@ class levelScene extends Phaser.Scene {
 
         this.buildCollisions();
 
-        //this.juke = new JukeBox(this,this);
-
         // Camera
         var cam = this.cameras.main;
         cam.startFollow(this.player);
@@ -219,16 +217,31 @@ class levelScene extends Phaser.Scene {
         cam.setBounds(64, 64, map.width * 64 - 128, map.height * 64 - 3 * 64 - 5, true, true, true); // Empêche de voir sous le sol notamment
         cam.setZoom(1.2);
 
+        this.cameras.main.fadeIn(1000);
+
 
         // Touches utilisées
         this.cursors = this.input.keyboard.createCursorKeys(); // Flèches directionnelles 
         this.keySpace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE); // Touche espace 
         this.keyE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
+        this.keyP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
 
         //this.time.addEvent({ delay: 300, callbackScope: this, callback: function () { this.juke.start(this.keyA); } });
     }
 
     standardUpdate(time,delta) {
+
+        console.log(document.visibilityState);
+
+        if (this.keyP.isDown) {
+            console.log('pause');
+            this.scene.run('PauseMenu');
+            this.scene.bringToTop('PauseMenu');
+            this.scene.pause();
+            this.musicScene.scene.pause();
+            this.musicScene.jukebox.currMusic.pause();
+        }
+
         // Actions (cf chara.js)
         this.player.move(this.cursors, this.keySpace, undefined);
         this.player.jump(this.keySpace, undefined, time);
@@ -252,6 +265,7 @@ class levelScene extends Phaser.Scene {
     init(_musicScene) {
         this.musicScene = _musicScene;
         this.musicScene.jukebox.setLevelScene(this);
+        this.musicScene.levelScene = this;
         console.log('Nouvelle scene : ' + this.scene.key);
     }
 

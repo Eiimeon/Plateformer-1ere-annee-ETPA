@@ -14,8 +14,13 @@ var config = {
     input: {
         gamepad: true
     },
+    scale : {
+        mode : Phaser.Scale.FIT
+    },
     scene: [
+        IntroLogos,
         StartScreen,
+        PauseMenu,
         MusicAndData,
         L1_0,
         L1_1,

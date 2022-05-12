@@ -8,6 +8,7 @@ class StartScreen extends Phaser.Scene {
 
     preload() {
         this.load.image('titleScreen', 'assets/images/titleScreen.png');
+        this.load.image('pause','assets/images/pause.png');
 
         this.load.tilemapTiledJSON('gym', 'assets/images/map/proto.json');
         this.load.tilemapTiledJSON('level1', 'assets/images/map/level1.tmj');
@@ -53,6 +54,7 @@ class StartScreen extends Phaser.Scene {
 
     create() {
         this.add.image(0, 0, 'titleScreen').setOrigin(0, 0).setScale(1);
+        this.cameras.main.fadeIn(1000);
     }
 
     update() {
