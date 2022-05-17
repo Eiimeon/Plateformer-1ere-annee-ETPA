@@ -176,8 +176,8 @@ class levelScene extends Phaser.Scene {
             //currPlayer.spawnIndex += 1;
             //currPlayer.die();
             if (true) {
-                console.log(((parseInt(this.scene.key[3])+1)%6));
-                this.scene.start('L1_' + ((parseInt(this.scene.key[3])+1)%6), this.musicScene);
+                console.log(((parseInt(this.scene.key[3])+1)%7));
+                this.scene.start('L1_' + ((parseInt(this.scene.key[3])+1)%7), this.musicScene);
             }
         });
     }

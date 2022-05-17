@@ -28,7 +28,12 @@ class Denial extends Phaser.Physics.Arcade.Sprite {
         console.log(this.beam);
 
         this.scene.physics.add.collider(this, this.scene.platforms);
-        this.scene.physics.add.overlap(this.beam, this.scene.player, () => { this.scene.player.die(); });
+        this.scene.physics.add.overlap(this.beam, this.scene.player, () => {
+            if (this.on) {
+                this.scene.player.die();
+                this.stop();
+            }
+        });
 
         console.log('denial construit')
     }
@@ -50,6 +55,14 @@ class Denial extends Phaser.Physics.Arcade.Sprite {
         this.y = -64;
         this.beam.y = -64;
         this.setGravityY(-g);
+    }
+
+    restart() {
+        this.on = true;
+        this.y = this.y0;
+        this.beam.y = -64;
+        this.setGravityY(0);
+        this.forceTick();
     }
 
     denialTick(BC) {

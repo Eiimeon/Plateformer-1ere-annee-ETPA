@@ -111,6 +111,12 @@ class Chara extends Phaser.Physics.Arcade.Sprite {
             frameRate: 1,
             repeat: 0
         })
+        this.anims.create({
+            key: 'die',
+            frames: this.anims.generateFrameNumbers('slimeSheet', { frames: [8] }),
+            frameRate: 1,
+            repeat: 0
+        })
     }
 
     // Déplacements gauche droite basiques
@@ -175,41 +181,43 @@ class Chara extends Phaser.Physics.Arcade.Sprite {
 
 
 
-    animate(cursors,time) {
+    animate(cursors, time) {
         if (!this.body.blocked.down) {
             this.latestInAirTime = time
         }
-        if (this.body.velocity.y == 0) {
-            if (this.body.onFloor()) {
-                //console.log ( player.anims.getName()) ;
-
-                if (time - this.latestInAirTime < 125) {
-                    this.play('touchGround');
-                }
-                else if ((cursors.left.isDown || cursors.right.isDown)) {
-                    if (true) {
-                        this.play('walk',true);
+        if (this.anims.getName()!= 'die') {
+            if (this.body.velocity.y == 0) {
+                if (this.body.onFloor()) {
+                    //console.log ( player.anims.getName()) ;
+    
+                    if (time - this.latestInAirTime < 125) {
+                        this.play('touchGround');
+                    }
+                    else if ((cursors.left.isDown || cursors.right.isDown)) {
+                        if (true) {
+                            this.play('walk', true);
+                        }
+                    }
+                    else {
+                        this.play('idle');
                     }
                 }
                 else {
-                    this.play('idle');
+                    this.play('jumpPeak');
+                    this.anims.chain('jumpDown');
                 }
             }
-            else {
-                this.play('jumpPeak');
-                this.anims.chain('jumpDown');
+            else if (this.body.velocity.y < 0) {
+                // this.play('jumpUp',false);
             }
-        }
-        else if (this.body.velocity.y < 0) {
-            // this.play('jumpUp',false);
-        }
-        else if (this.body.velocity.y > 0) {
-            // this.play('jumpPeak',true);
-            if (this.anims.getName() != 'jumpPeak') {
-                this.play('jumpPeak', true);
-                this.anims.chain('jumpDown');
+            else if (this.body.velocity.y > 0) {
+                // this.play('jumpPeak',true);
+                if (this.anims.getName() != 'jumpPeak') {
+                    this.play('jumpPeak', true);
+                    this.anims.chain('jumpDown');
+                }
+    
             }
-
         }
     }
 
@@ -225,18 +233,31 @@ class Chara extends Phaser.Physics.Arcade.Sprite {
         //     //this.spawnIndex = this.scene.spawns.length - 1 ;
         //     this.spawnIndex = 0;
         // }
+
+        this.setGravityY(-g);
+        this.play('die');
+        this.scene.time.addEvent({delay : 500, callbackScope: this, callback:this.diePt2});
+        
+        //Sthis.scene.cameras.main.setBounds(this.scene.screenBounds[this.spawnIndex][0],this.scene.screenBounds[this.spawnIndex][1],this.scene.screenBounds[this.spawnIndex][2],this.scene.screenBounds[this.spawnIndex][3]) ; // Empêche de voir sous le sol notamment
+        // this.scene.scene.restart();
+    }
+
+    diePt2() {
+        this.setGravityY(0);
+        this.play('idle');
         this.x = this.scene.spawns[this.spawnIndex].x - 64;
         this.y = this.scene.spawns[this.spawnIndex].y - 3 * 64;
         this.setVelocityX(0);
         this.setVelocityY(0);
         this.scene.cameras.main.fadeIn(1000);
-        //Sthis.scene.cameras.main.setBounds(this.scene.screenBounds[this.spawnIndex][0],this.scene.screenBounds[this.spawnIndex][1],this.scene.screenBounds[this.spawnIndex][2],this.scene.screenBounds[this.spawnIndex][3]) ; // Empêche de voir sous le sol notamment
-        // this.scene.scene.restart();
+        
+        try { this.scene.denial.restart(); }
+        catch (error) { }
     }
 
 
     restoreAbilities() {
-        console.log(this.anims.getName());
+        // console.log(this.anims.getName());
         if (this.body.onFloor()) {
             this.jumpAllowed = true;
             this.dashAllowed = true;

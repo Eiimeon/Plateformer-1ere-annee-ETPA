@@ -20,6 +20,19 @@ class L1_6 extends levelScene {
         const TILESET = MAP.addTilesetImage('tilesetProto++', 'tileset');
 
         this.buildLevel(MAP, TILESET);
+
+        this.denialSpawns = MAP.getObjectLayer('denialSpawns').objects
+        console.log(this.denialSpawns[0]);
+        this.denial = new Denial(this, this.denialSpawns[0].x, this.denialSpawns[0].y, 'denial', false, [0, 0, 1, 1]);
+
+        var _denialTriggers = this.physics.add.group({ allowGravity: false, immovable: true });
+        MAP.getObjectLayer('denialTriggers').objects.forEach(function (currTrigger) { _denialTriggers.create(currTrigger.x, currTrigger.y - 64, 'transparent').setOrigin(0); });
+        this.denialTriggers = _denialTriggers;
+
+
+        this.physics.add.overlap(this.player, this.denialTriggers, () => {
+            this.denial.stop();
+        })
     }
 
     update(time,delta) {

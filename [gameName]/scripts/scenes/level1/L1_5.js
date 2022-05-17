@@ -39,8 +39,6 @@ class L1_5 extends levelScene {
         this.physics.add.overlap(this.player, this.denialTriggers, () => {
             this.denial.stop();
         })
-
-        
     }
 
     step1() {
