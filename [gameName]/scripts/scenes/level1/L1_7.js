@@ -7,7 +7,7 @@ class L1_7 extends levelScene {
                 default: 'arcade',
                 arcade: {
                     gravity: { y: g },
-                    debug: true
+//                    debug: true
                 }
             }
         })
@@ -20,6 +20,10 @@ class L1_7 extends levelScene {
         const TILESET = MAP.addTilesetImage('tilesetProto++', 'tileset');
 
         this.buildLevel(MAP, TILESET);
+        
+        this.denialSpawns = MAP.getObjectLayer('denialSpawns').objects
+        console.log(this.denialSpawns[0]);
+        this.denial = new Denial(this, this.denialSpawns[0].x, this.denialSpawns[0].y, 'denial', false, [1, 1, 0, 0]);
     }
 
     update(time,delta) {

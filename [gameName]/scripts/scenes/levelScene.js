@@ -176,8 +176,8 @@ class levelScene extends Phaser.Scene {
             //currPlayer.spawnIndex += 1;
             //currPlayer.die();
             if (true) {
-                console.log(((parseInt(this.scene.key[3])+1)%7));
-                this.scene.start('L1_' + ((parseInt(this.scene.key[3])+1)%7), this.musicScene);
+                console.log(((parseInt(this.scene.key[3])+1)%8));
+                this.scene.start('L1_' + ((parseInt(this.scene.key[3])+1)%8), this.musicScene);
             }
         });
     }
@@ -243,11 +243,12 @@ class levelScene extends Phaser.Scene {
         }
 
         // Actions (cf chara.js)
-        this.player.move(this.cursors, this.keySpace, undefined);
-        this.player.jump(this.keySpace, undefined, time);
-        this.player.animate(this.cursors,time);
-
-        this.player.restoreAbilities();
+        if (!this.player.dead) {
+            this.player.move(this.cursors, this.keySpace, undefined);
+            this.player.jump(this.keySpace, undefined, time);
+            this.player.animate(this.cursors,time);
+            this.player.restoreAbilities();
+        }
 
         /*
         //console.log(timer.getElapsed()) ;

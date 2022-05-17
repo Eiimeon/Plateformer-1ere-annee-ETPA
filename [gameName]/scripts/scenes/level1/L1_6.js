@@ -7,7 +7,7 @@ class L1_6 extends levelScene {
                 default: 'arcade',
                 arcade: {
                     gravity: { y: g },
-                    debug: true
+//                    debug: true
                 }
             }
         })
@@ -31,7 +31,7 @@ class L1_6 extends levelScene {
 
 
         this.physics.add.overlap(this.player, this.denialTriggers, () => {
-            this.denial.stop();
+            this.denial.kill();
         })
     }
 

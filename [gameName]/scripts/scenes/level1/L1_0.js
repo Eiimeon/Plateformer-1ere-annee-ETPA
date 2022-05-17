@@ -7,7 +7,7 @@ class L1_0 extends levelScene {
                 default: 'arcade',
                 arcade: {
                     gravity: { y: g },
-                    debug: true
+//                    debug: true
                 }
             }
         })

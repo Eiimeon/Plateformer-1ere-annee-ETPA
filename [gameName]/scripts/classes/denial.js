@@ -53,6 +53,13 @@ class Denial extends Phaser.Physics.Arcade.Sprite {
     stop() {
         this.on = false;
         this.y = -64;
+//        this.beam.y = -64;
+        this.setGravityY(-g);
+    }
+    
+    kill() {
+        this.on = false;
+        this.y = -64;
         this.beam.y = -64;
         this.setGravityY(-g);
     }
@@ -62,7 +69,7 @@ class Denial extends Phaser.Physics.Arcade.Sprite {
         this.y = this.y0;
         this.beam.y = -64;
         this.setGravityY(0);
-        this.forceTick();
+//        this.forceTick();
     }
 
     denialTick(BC) {

@@ -12,8 +12,8 @@ class MusicAndData extends Phaser.Scene {
 
     create() {
         
-        this.scene.run('L1_5',this);
-        this.levelScene = this.scene.get('L1_5');
+        this.scene.run('L1_0',this);
+        this.levelScene = this.scene.get('L1_0');
 
         this.jukebox = new JukeBox(this,this.levelScene);
         this.jukebox.start();

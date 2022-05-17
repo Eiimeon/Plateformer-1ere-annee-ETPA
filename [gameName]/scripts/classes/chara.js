@@ -30,6 +30,7 @@ class Chara extends Phaser.Physics.Arcade.Sprite {
         this.dashAllowed = true;
         this.dashing = false;
         this.spawnIndex = 0;
+        this.dead;
 
         // Paramètres
         this.runSpeed = 500;
@@ -233,9 +234,12 @@ class Chara extends Phaser.Physics.Arcade.Sprite {
         //     //this.spawnIndex = this.scene.spawns.length - 1 ;
         //     this.spawnIndex = 0;
         // }
-
-        this.setGravityY(-g);
+        this.dead=true;
+        console.log('die')
+//        this.setGravityY(-g);
         this.play('die');
+        this.setVelocityX(0);
+        this.setVelocityY(0);
         this.scene.time.addEvent({delay : 500, callbackScope: this, callback:this.diePt2});
         
         //Sthis.scene.cameras.main.setBounds(this.scene.screenBounds[this.spawnIndex][0],this.scene.screenBounds[this.spawnIndex][1],this.scene.screenBounds[this.spawnIndex][2],this.scene.screenBounds[this.spawnIndex][3]) ; // Empêche de voir sous le sol notamment
@@ -247,9 +251,9 @@ class Chara extends Phaser.Physics.Arcade.Sprite {
         this.play('idle');
         this.x = this.scene.spawns[this.spawnIndex].x - 64;
         this.y = this.scene.spawns[this.spawnIndex].y - 3 * 64;
-        this.setVelocityX(0);
-        this.setVelocityY(0);
+        
         this.scene.cameras.main.fadeIn(1000);
+        this.dead = false;
         
         try { this.scene.denial.restart(); }
         catch (error) { }
