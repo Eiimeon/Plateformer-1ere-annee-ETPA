@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="50" height="50" tilewidth="64" tileheight="64" infinite="0" nextlayerid="41" nextobjectid="1">
  <tileset firstgid="1" name="tilesetProto++" tilewidth="64" tileheight="64" tilecount="64" columns="4">
-  <image source="../[game name]/assets/images/map/tilesetProto++.png" width="256" height="1024"/>
+  <image source="../[gameName]/assets/images/map/tilesetProto++.png" width="256" height="1024"/>
  </tileset>
  <layer id="38" name="pointilles" width="50" height="50">
   <data encoding="csv">
