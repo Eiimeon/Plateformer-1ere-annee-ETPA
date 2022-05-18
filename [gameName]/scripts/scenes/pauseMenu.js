@@ -13,6 +13,7 @@ class PauseMenu extends Phaser.Scene {
         musicScene.scene.resume();
         musicScene.jukebox.currMusic.resume();
         musicScene.levelScene.scene.resume();
+        musicScene.pauseMusic.stop();
         this.scene.sleep();
     }
 
@@ -21,6 +22,7 @@ class PauseMenu extends Phaser.Scene {
         musicScene.scene.stop();
         musicScene.levelScene.scene.stop();
         this.scene.run('StartScreen');
+        musicScene.pauseMusic.stop();
         this.scene.sleep();
     }
 

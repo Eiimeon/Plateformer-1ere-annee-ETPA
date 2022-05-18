@@ -6,7 +6,8 @@ BOMONT Jérémy (Noé) - ETPA 2021-2022
 
 ##################################################################################################################################################*/
 const g = 1500;
-const STARTLEVELKEY = 'L1_8';
+const STARTLEVELKEY = 'L1_0';
+const NLEVELS1PARTS = 9
 
 var config = {
     type: Phaser.AUTO,

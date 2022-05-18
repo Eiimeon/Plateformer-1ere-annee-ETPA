@@ -232,6 +232,7 @@ class Chara extends Phaser.Physics.Arcade.Sprite {
     die() {
         if (!this.dead) {
             this.scene.sound.play('moan');
+            // this.scene.sound.play('deathPiano');
             // if (this.spawnIndex >= this.scene.spawns.length) {
             //     //this.spawnIndex = this.scene.spawns.length - 1 ;
             //     this.spawnIndex = 0;

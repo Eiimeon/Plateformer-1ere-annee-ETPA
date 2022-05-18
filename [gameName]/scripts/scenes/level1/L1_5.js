@@ -48,6 +48,7 @@ class L1_5 extends levelScene {
 
     step2() {
         this.player.setVelocityX(0);
+        this.player.play('jumpDown');
         //this.musicScene.jukebox.currMusic.pause();
         //this.musicScene.jukebox = null;
         this.sound.add('denialEntranceSound').setVolume(0.3);
@@ -65,10 +66,9 @@ class L1_5 extends levelScene {
     }
 
     step4() {
-        console.log('step4')
+        this.player.play('idle');
         this.musicScene.jukebox._music = this.musicScene.jukebox._cursedHappy;
         this.musicScene.jukebox._currMusic = this.musicScene.jukebox._music[0];
-        console.log(this.musicScene.jukebox.currMusic);
         this.musicScene.jukebox.start();
         this.musicScene.seenCinematic1_5 = true;
         this.musicScene.playingCinematic1_5 = false;

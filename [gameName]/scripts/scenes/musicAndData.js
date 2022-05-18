@@ -17,6 +17,8 @@ class MusicAndData extends Phaser.Scene {
 
         this.jukebox = new JukeBox(this,this.levelScene);
         this.jukebox.start();
+
+        this.pauseMusic = this.sound.add('pauseMajor').setVolume(0.2).setLoop(true);
         
     }
 

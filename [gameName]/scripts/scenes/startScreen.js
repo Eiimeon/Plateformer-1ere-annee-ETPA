@@ -31,6 +31,8 @@ class StartScreen extends Phaser.Scene {
         this.load.spritesheet('slimeSheet', 'assets/images/chara2ToSpriteSheet.png', { frameWidth: 774, frameHeight: 1554 });
 
         this.load.image('fond', 'assets/images/protoFond.png');
+        this.load.image('fond1_9', 'assets/images/fond1_9.png');
+        this.load.image('overlay1_9', 'assets/images/overlay1_9.png');
         this.load.image('blueFilter', 'assets/images/blueFilter.png')
         this.load.image('bSquare', 'assets/images/bSquare.png');
         this.load.image('miko', 'assets/images/miko0.png');
@@ -58,7 +60,12 @@ class StartScreen extends Phaser.Scene {
         this.load.audio('cursedH5', 'assets/musiques/curseH5.mp3');
         this.load.audio('cursedH6', 'assets/musiques/curseH6.mp3');
 
+        this.load.audio('pauseMajor', 'assets/musiques/pauseMajeur.mp3');
+        this.load.audio('pauseMinor', 'assets/musiques/pauseMineur.mp3');
+
+
         this.load.audio('denialEntranceSound', 'assets/musiques/denialEntranceSound.mp3');
+        this.load.audio('deathPiano','assets/musiques/deathPiano.mp3');
         this.load.audio('moan','assets/musiques/hitHurt.wav');
     }
 

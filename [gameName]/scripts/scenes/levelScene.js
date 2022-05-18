@@ -176,8 +176,8 @@ class levelScene extends Phaser.Scene {
             //currPlayer.spawnIndex += 1;
             //currPlayer.die();
             if (true) {
-                console.log(((parseInt(this.scene.key[3])+1)%8));
-                this.scene.start('L1_' + ((parseInt(this.scene.key[3])+1)%8), this.musicScene);
+                console.log(((parseInt(this.scene.key[3])+1)%NLEVELS1PARTS));
+                this.scene.start('L1_' + ((parseInt(this.scene.key[3])+1)%NLEVELS1PARTS), this.musicScene);
             }
         });
     }
@@ -187,10 +187,18 @@ class levelScene extends Phaser.Scene {
         // Sons
         
         this.sound.add('moan');
+        this.deathPiano = this.sound.add('deathPiano');
+        // this.deathPiano.setMute(true);
+        console.log(this.deathPiano.volume);
 
         // Décor
 
-        this.add.image(0, 0, 'fond').setOrigin(0, 0).setScrollFactor(0);
+        this.fond = this.add.image(0, 0, 'fond').setOrigin(0, 0).setScrollFactor(0);
+        console.log(this.scene.key);
+        if (this.scene.key == 'L1_8') {
+            console.log('fond1_9');
+            this.add.image(0,0,'fond1_9').setOrigin(0);
+        }
         map.createLayer('pointilles', tileset);
 
         // Plateformes
@@ -240,6 +248,7 @@ class levelScene extends Phaser.Scene {
         if (this.keyP.isDown) {
             console.log('pause');
             this.scene.run('PauseMenu');
+            this.musicScene.pauseMusic.play();
             this.scene.bringToTop('PauseMenu');
             this.scene.pause();
             this.musicScene.scene.pause();
