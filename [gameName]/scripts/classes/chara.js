@@ -230,21 +230,24 @@ class Chara extends Phaser.Physics.Arcade.Sprite {
     }
 
     die() {
-        // if (this.spawnIndex >= this.scene.spawns.length) {
-        //     //this.spawnIndex = this.scene.spawns.length - 1 ;
-        //     this.spawnIndex = 0;
-        // }
-        this.dead=true;
-        console.log('die')
-//        this.setGravityY(-g);
-        this.play('die');
-        this.setVelocityX(0);
-        this.setVelocityY(0);
-        this.scene.time.addEvent({delay : 500, callbackScope: this, callback:this.diePt2});
-        
-        //Sthis.scene.cameras.main.setBounds(this.scene.screenBounds[this.spawnIndex][0],this.scene.screenBounds[this.spawnIndex][1],this.scene.screenBounds[this.spawnIndex][2],this.scene.screenBounds[this.spawnIndex][3]) ; // Empêche de voir sous le sol notamment
-        // this.scene.scene.restart();
+        if (!this.dead) {
+            this.scene.sound.play('moan');
+            // if (this.spawnIndex >= this.scene.spawns.length) {
+            //     //this.spawnIndex = this.scene.spawns.length - 1 ;
+            //     this.spawnIndex = 0;
+            // }
+            this.dead=true;
+            console.log('die')
+    //        this.setGravityY(-g);
+            this.play('die');
+            this.setVelocityX(0);
+            this.setVelocityY(0);
+            this.scene.time.addEvent({delay : 500, callbackScope: this, callback:this.diePt2});
+
+            //Sthis.scene.cameras.main.setBounds(this.scene.screenBounds[this.spawnIndex][0],this.scene.screenBounds[this.spawnIndex][1],this.scene.screenBounds[this.spawnIndex][2],this.scene.screenBounds[this.spawnIndex][3]) ; // Empêche de voir sous le sol notamment
+            // this.scene.scene.restart();
     }
+        }
 
     diePt2() {
         this.setGravityY(0);

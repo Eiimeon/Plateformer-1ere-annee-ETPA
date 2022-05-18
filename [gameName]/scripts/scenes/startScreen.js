@@ -59,6 +59,7 @@ class StartScreen extends Phaser.Scene {
         this.load.audio('cursedH6', 'assets/musiques/curseH6.mp3');
 
         this.load.audio('denialEntranceSound', 'assets/musiques/denialEntranceSound.mp3');
+        this.load.audio('moan','assets/musiques/hitHurt.wav');
     }
 
     create() {

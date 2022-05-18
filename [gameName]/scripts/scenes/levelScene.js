@@ -183,6 +183,10 @@ class levelScene extends Phaser.Scene {
     }
 
     buildLevel(map, tileset) {
+        
+        // Sons
+        
+        this.sound.add('moan');
 
         // Décor
 
