@@ -67,6 +67,7 @@ class L1_5 extends levelScene {
 
     step4() {
         this.player.play('idle');
+        this.musicScene.pauseMusic = this.musicScene.sound.add('pauseMinor');
         this.musicScene.jukebox._music = this.musicScene.jukebox._cursedHappy;
         this.musicScene.jukebox._currMusic = this.musicScene.jukebox._music[0];
         this.musicScene.jukebox.start();
